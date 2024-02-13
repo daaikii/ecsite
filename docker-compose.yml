@@ -8,6 +8,7 @@ services:
       - node_modules:/front/node_modules
     ports:
       - 3000:3000
+      - 5555:5555
     command: npm run dev
     environment:
       -  WATCHPACK_POLLING=true next dev
@@ -16,7 +17,7 @@ services:
     volumes:
       - db:/ver/lib/mysql
     ports:
-      - 8080:8080
+      - 3306:3306
     env_file:
       - /front/.env
 volumes:
