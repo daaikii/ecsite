@@ -24,20 +24,20 @@ model Business {
   email          String @unique
   name           String
   hashedPassword String
-  image          String
+  imageURL       String
   address        String
 
   item Item[]
 }
 
 model Item {
-  id             String   @unique @default(cuid())
+  id             String  @unique @default(cuid())
   name           String
-  price          Int
-  expirationDate DateTime
-  stock          Int
+  price          String
+  expirationDate String
+  stock          String
   detail         String?
-  image          String
+  imageURL       String
 
   business   Business @relation(fields: [businessId], references: [id])
   businessId String
