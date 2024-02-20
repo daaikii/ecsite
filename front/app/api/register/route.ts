@@ -4,30 +4,33 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { email, password, name, address, image, purpose } = body
-  const hashedPassword = await bcrypt.hash(password, 10)
-  if (purpose === "User") {
-    const user = await prisma.user.create({
-      data: {
-        email,
-        hashedPassword,
-        name,
-      }
-    })
-    return NextResponse.json(user)
-  }
-  if (purpose === "Business") {
-    if (address && image) {
+  const { email, password, name, address, imageURL, purpose } = body
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10)
+    // purposeから作成するアカウントを決める
+    if (purpose === "User") {
+      const user = await prisma.user.create({
+        data: {
+          email,
+          hashedPassword,
+          name,
+        }
+      })
+      return NextResponse.json(user)
+    }
+    if (purpose === "Business") {
       const business = await prisma.business.create({
         data: {
           email,
           hashedPassword,
           name,
           address,
-          image
+          imageURL
         }
       })
       return NextResponse.json(business)
     }
+  } catch (error) {
+    return new NextResponse('Error', { status: 500 });
   }
 } 

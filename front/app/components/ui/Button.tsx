@@ -1,3 +1,5 @@
+"use client"
+
 type ButtonProps = {
   label: string,
   disabled: boolean,
@@ -6,7 +8,17 @@ type ButtonProps = {
 
 const Button = ({ label, disabled, onClick }: ButtonProps) => {
   return (
-    <button onClick={() => onClick} disabled={disabled}>{label}</button>
+    <button onClick={() => onClick && onClick()}
+      disabled={disabled}
+      className='
+        bg-[#ff6565]
+          text-white
+          w-full
+          p-2
+         '
+    >
+      {label}
+    </button>
   )
 }
 
