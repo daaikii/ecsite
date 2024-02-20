@@ -4,7 +4,7 @@ import bcrypt from "bcrypt"
 
 import prisma from "@/app/lib/db"
 
-const authOption = {
+export const authOption = {
   providers: [
     CredentialsProvider({
       name: "Credential",
@@ -14,35 +14,39 @@ const authOption = {
         purpose: { label: "purpose", type: "text" }
       },
       async authorize(credentials) {
-        if (!credentials?.email && !credentials?.password) {
+        try {
+          if (!credentials?.email && !credentials?.password) {
+            return null
+          }
+          let user
+          if (credentials.purpose === "User") {
+            user = await prisma.user.findUnique({
+              where: {
+                email: credentials.email
+              }
+            })
+          }
+          if (credentials.purpose === "Business") {
+            user = await prisma.business.findUnique({
+              where: {
+                email: credentials.email
+              }
+            })
+          }
+          if (!user) {
+            return null
+          }
+          const correctPassword = bcrypt.compare(
+            credentials.password,
+            user.hashedPassword
+          )
+          if (!correctPassword) {
+            return null
+          }
+          return user
+        } catch (error) {
           return null
         }
-        let user
-        if (credentials.purpose === "User") {
-          user = await prisma.user.findUnique({
-            where: {
-              email: credentials.email
-            }
-          })
-        }
-        if (credentials.purpose === "Business") {
-          user = await prisma.business.findUnique({
-            where: {
-              email: credentials.email
-            }
-          })
-        }
-        if (!user) {
-          return null
-        }
-        const verifiedPassword = bcrypt.compare(
-          credentials.password,
-          user.hashedPassword
-        )
-        if (!verifiedPassword) {
-          return null
-        }
-        return user
       }
     })
   ],
