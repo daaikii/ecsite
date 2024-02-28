@@ -1,7 +1,7 @@
 "use client"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, FC } from "react"
 import { useRouter } from "next/navigation"
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
+import { useForm, SubmitHandler, FieldValues, useWatch } from "react-hook-form"
 import { useSession, signIn } from "next-auth/react"
 import axios from "axios"
 
@@ -10,20 +10,25 @@ import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase"
 import uploadImageToS3 from "@/app/lib/s3"
 
-const AuthForm = () => {
+const AuthForm: FC = () => {
 
   const [variant, setVariant] = useState<"Register" | "Login">("Login")
-  const [purpose, setPurpose] = useState<"User" | "Business">("User")
+  const [purpose, setPurpose] = useState<"User" | "Shop">("User")
   const [isLoading, setIsLoading] = useState(false)
+  const [lat, setLat] = useState<number>()
+  const [lng, setLng] = useState<number>()
   const router = useRouter()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors }, control } = useForm()
+  const watchLat = useWatch({ control, name: "lat" })
+  const watchLng = useWatch({ control, name: "lng" })
+
   const changeVariant = useCallback(() => {
     variant === "Login" && setVariant("Register")
     variant === "Register" && setVariant("Login")
   }, [variant])
   const changePurpose = useCallback(() => {
-    purpose === "User" && setPurpose("Business")
-    purpose === "Business" && setPurpose("User")
+    purpose === "User" && setPurpose("Shop")
+    purpose === "Shop" && setPurpose("User")
   }, [purpose])
   const session = useSession()
   useEffect(() => {
@@ -31,8 +36,15 @@ const AuthForm = () => {
       router.push("/")
     }
   }, [session])
+  const getPresentLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude)
+      setLng(position.coords.longitude)
+    })
+  }, [])
 
   const authFormSubmit: SubmitHandler<FieldValues> = async (data) => {
+    // ログインする種類の指定に使用
     data = { ...data, purpose }
     setIsLoading(true)
     // サインインしてルートに移動
@@ -52,8 +64,8 @@ const AuthForm = () => {
     }
     // アカウント作成とサインインしてルートに移動
     if (variant === "Register") {
-      // BusinessのS3の画像保存
-      if (purpose === "Business") {
+      // ShopのS3の画像保存
+      if (purpose === "Shop") {
         const imageURL = await uploadImageToS3(data)
         if (!imageURL) {
           return null
@@ -79,12 +91,12 @@ const AuthForm = () => {
   return (
     <FormBase>
 
-      {/* アカウント作成時のみpurpose切り替え */}
+      {/* アカウント作成時のみpurpose切り替え可 */}
       {
         variant === "Register" &&
         <div className="flex justify-between">
-          <div className="" onClick={() => { purpose === "Business" && changePurpose() }}>User</div>
-          <div onClick={() => { purpose === "User" && changePurpose() }}>Business</div>
+          <div className="" onClick={() => { purpose === "Shop" && changePurpose() }}>User</div>
+          <div onClick={() => { purpose === "User" && changePurpose() }}>Shop</div>
         </div>
       }
 
@@ -96,10 +108,14 @@ const AuthForm = () => {
         {variant === "Register" && ( //アカウント作成のみ表示
           <>
             <Input disabled={isLoading} required={true} register={register} errors={errors} type="text" id="name" label="name" />
-            {purpose === "Business" && ( //アカウント作成 (商用アカウント作成)のみ表示
+            {purpose === "Shop" && ( //アカウント作成 (商用アカウント作成)のみ表示
               <>
                 <Input disabled={isLoading} required={true} register={register} errors={errors} type="text" id="address" label="address" />
-                <Input disabled={isLoading} required={true} register={register} errors={errors} type="file" id="image" label="image" />
+                <p>緯度、経度を入力、または位置情報から緯度、経度を取得してください</p>
+                <Input disabled={isLoading} required={true} register={register} errors={errors} type="text" id="lat" label="latitude" forNumber />
+                <Input disabled={isLoading} required={true} register={register} errors={errors} type="text" id="lng" label="longitude" forNumber />
+                <Button onClick={getPresentLocation} disabled={isLoading || watchLat || watchLng} label="位置情報からのアドレスを登録" />
+                <Input disabled={isLoading} required={true} register={register} errors={errors} type="file" id="image" label="image" control={control} />
               </>
             )}
           </>

@@ -1,6 +1,8 @@
+import { FC } from "react"
+
 import PostItemForm from "./components/PostItemForm"
 
-const Page = () => {
+const Page: FC = () => {
   return <>
     <PostItemForm />
   </>

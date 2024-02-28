@@ -1,6 +1,5 @@
 "use client"
-
-import { useState } from "react";
+import { FC, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,7 @@ import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase";
 import uploadImageToS3 from "@/app/lib/s3"
 
-const ItemPostForm = () => {
+const ItemPostForm: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { register, control, handleSubmit, formState: { errors } } = useForm()
   const router = useRouter()
@@ -24,8 +23,7 @@ const ItemPostForm = () => {
     axios
       .post("/api/createItem", data)
       .then((item) => {
-        router.push("/home")
-        console.log(item.data)
+        router.push("/")
       })
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false))
