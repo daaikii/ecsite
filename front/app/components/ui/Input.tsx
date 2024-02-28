@@ -1,5 +1,5 @@
 "use client"
-
+import { FC } from "react"
 import { UseFormRegister, FieldValues, FieldErrors, Control, useWatch } from "react-hook-form"
 import clsx from "clsx"
 
@@ -15,7 +15,7 @@ type InputProps = {
   forNumber?: boolean,
 }
 
-const Input = ({
+const Input: FC<InputProps> = ({
   disabled,
   required,
   register,
@@ -25,7 +25,7 @@ const Input = ({
   label,
   control,
   forNumber,
-}: InputProps) => {
+}) => {
   let watch
   if (control) {
     watch = useWatch({ name: id, control })
@@ -100,12 +100,12 @@ const Input = ({
               message: `${id}を入力してください`
             },
             pattern: {
-              value: forNumber ? /^[0-9]*$/ : /.*/,
+              value: forNumber ? /^\d+(?:\.\d+)?$/ : /.*/,
               message: forNumber ? "数字を入力してください" : "使用不可能な文字が使用されています"
             },
             maxLength: {
-              value: 20,
-              message: `${id}は20字までです`
+              value: 30,
+              message: `${id}は30字までです`
             }
           })}
           className={clsx(

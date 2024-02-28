@@ -1,12 +1,13 @@
 "use client"
+import { FC } from "react"
 
 type ButtonProps = {
   label: string,
   disabled: boolean,
-  onClick?: () => void
+  onClick?: () => void,
 }
 
-const Button = ({ label, disabled, onClick }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ label, disabled, onClick }) => {
   return (
     <button onClick={() => onClick && onClick()}
       disabled={disabled}

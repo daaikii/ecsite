@@ -1,9 +1,9 @@
 "use client"
-
+import { FC } from "react"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 
-const Header = () => {
+const Header: FC = () => {
   const { status } = useSession()
   return (
     <div className="h-20 bg-[#FF6565]">
