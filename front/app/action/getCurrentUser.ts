@@ -7,7 +7,7 @@ async function getCurrentUser() {
   try {
     const session = await getServerSession(authOption)
     if (!session?.user?.email) {
-      throw new Error("failed to get session")
+      return null
     }
     const user = await prisma.user.findUnique({
       where: {
@@ -15,12 +15,11 @@ async function getCurrentUser() {
       }
     })
     if (!user) {
-      throw new Error("failed to get user using prisma")
+      null
     }
     return user
-  } catch (error) {
-    console.log(error)
-    throw new Error("failed to get current user")
+  } catch {
+    null
   }
 }
 

@@ -1,13 +1,16 @@
 import { FC } from "react"
 
-import { Shop, Item } from "@prisma/client"
+import Image from "next/image"
+import { ShopWithItems } from "@/app/type/prisma"
 
-type ShopCardProps = { shop: { items: Item[] } & Shop, onClick: () => void }
+type ShopProps = {
+  shop: ShopWithItems
+}
 
-const ShopCard: FC<ShopCardProps> = ({ shop }) => {
+const ShopCard: FC<ShopProps> = ({ shop }) => {
   return (
     <>
-      <img src={shop.imageURL} />
+      <Image src={shop.imageURL} alt="shop icon" />
       <ul>
         <li key="item0">{shop.items[0]?.name}</li>
         <li key="item1">{shop.items[1]?.name}</li>

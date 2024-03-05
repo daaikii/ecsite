@@ -15,31 +15,33 @@ const AuthForm: FC = () => {
   const [variant, setVariant] = useState<"Register" | "Login">("Login")
   const [purpose, setPurpose] = useState<"User" | "Shop">("User")
   const [isLoading, setIsLoading] = useState(false)
-  const [lat, setLat] = useState<number>()
-  const [lng, setLng] = useState<number>()
   const router = useRouter()
-  const { register, handleSubmit, formState: { errors }, control } = useForm()
+  const { register, handleSubmit, formState: { errors }, control, setValue } = useForm()
   const watchLat = useWatch({ control, name: "lat" })
   const watchLng = useWatch({ control, name: "lng" })
+  const session = useSession()
 
   const changeVariant = useCallback(() => {
     variant === "Login" && setVariant("Register")
     variant === "Register" && setVariant("Login")
   }, [variant])
+
   const changePurpose = useCallback(() => {
     purpose === "User" && setPurpose("Shop")
     purpose === "Shop" && setPurpose("User")
   }, [purpose])
-  const session = useSession()
+
+
   useEffect(() => {
     if (session.status === "authenticated") {
       router.push("/")
     }
   }, [session])
+
   const getPresentLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      setLat(position.coords.latitude)
-      setLng(position.coords.longitude)
+      setValue("lat", position.coords.latitude)
+      setValue("lng", position.coords.longitude)
     })
   }, [])
 
