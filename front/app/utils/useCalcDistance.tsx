@@ -1,5 +1,3 @@
-import { use } from "react";
-
 // 二つの緯度、経度からkm単位で距離を出力する
 const R = Math.PI / 180;
 

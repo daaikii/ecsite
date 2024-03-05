@@ -7,7 +7,7 @@ async function getCurrentShop() {
   try {
     const session = await getServerSession(authOption)
     if (!session?.user?.email) {
-      throw new Error("failed to get current session")
+      return null
     }
     const shop = await prisma.shop.findUnique({
       where: {
@@ -15,12 +15,11 @@ async function getCurrentShop() {
       }
     })
     if (!shop) {
-      throw new Error("failed to get shop using prisma ")
+      return null
     }
     return shop
-  } catch (error) {
-    console.log(error)
-    throw new Error("failed to get shop")
+  } catch {
+    return null
   }
 }
 

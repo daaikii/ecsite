@@ -1,6 +1,6 @@
-import { Item, Shop } from "@prisma/client"
 import prisma from "@/app/lib/prismadb"
-import useCalcDistance from "@/app/hooks/useCalcDistance"
+import useCalcDistance from "@/app/utils/useCalcDistance"
+import { ShopWithItems } from "../type/prisma"
 
 async function getShop() {
   let userLocation = { lat2: 32.674552059110674, lng2: 130.28795159509326 }
@@ -21,10 +21,10 @@ async function getShop() {
     })
 
     if (!shops) {
-      throw new Error("Failed fetch shops")
+      return []
     }
 
-    let within10kmShops: ({ items: Item[] } & Shop)[] = []
+    let within10kmShops: ShopWithItems[] = []
     shops.map((shop) => {
       const distance = useCalcDistance({ lat1: shop.latitude, lng1: shop.longitude }, userLocation)
       if (distance <= 10) {
@@ -33,14 +33,13 @@ async function getShop() {
     })
 
     if (!within10kmShops.length) {
-      return null
+      return []
     }
 
     return within10kmShops
 
   }
-  catch (error) {
-    console.log(error)
+  catch {
     return []
   }
 }
