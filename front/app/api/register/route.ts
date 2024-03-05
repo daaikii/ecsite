@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt"
-import prisma from "@/app/lib/db"
+import prisma from "@/app/lib/prismadb"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { email, password, name, address, imageURL, purpose } = body
+  const { email, password, name, address, lat, lng, imageURL, purpose } = body
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
     // purposeから作成するアカウントを決める
@@ -18,17 +18,19 @@ export async function POST(request: Request) {
       })
       return NextResponse.json(user)
     }
-    if (purpose === "Business") {
-      const business = await prisma.business.create({
+    if (purpose === "Shop") {
+      const shop = await prisma.shop.create({
         data: {
           email,
           hashedPassword,
           name,
           address,
+          latitude: Number(lat),
+          longitude: Number(lng),
           imageURL
         }
       })
-      return NextResponse.json(business)
+      return NextResponse.json(shop)
     }
   } catch (error) {
     return new NextResponse('Error', { status: 500 });

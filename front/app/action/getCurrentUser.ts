@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth"
 
 import { authOption } from "@/app/api/auth/[...nextauth]/route"
-import prisma from "@/app/lib/db"
+import prisma from "@/app/lib/prismadb"
 
-const getCurrentUser = async () => {
+async function getCurrentUser() {
   try {
     const session = await getServerSession(authOption)
     if (!session?.user?.email) {
-      throw new Error("failed to get session")
+      return null
     }
     const user = await prisma.user.findUnique({
       where: {
@@ -15,12 +15,11 @@ const getCurrentUser = async () => {
       }
     })
     if (!user) {
-      throw new Error("failed to get user using prisma")
+      null
     }
     return user
-  } catch (error) {
-    console.log(error)
-    throw new Error("failed to get current user")
+  } catch {
+    null
   }
 }
 
