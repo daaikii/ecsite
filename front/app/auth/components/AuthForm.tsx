@@ -9,6 +9,7 @@ import Input from "@/app/components/ui/Input"
 import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase"
 import uploadImageToS3 from "@/app/lib/s3"
+import { setGlobalPurpose } from "@/app/store/purpose"
 
 const AuthForm: FC = () => {
 
@@ -47,8 +48,9 @@ const AuthForm: FC = () => {
 
   const authFormSubmit: SubmitHandler<FieldValues> = async (data) => {
     // ログインする種類の指定に使用
-    data = { ...data, purpose }
     setIsLoading(true)
+    data = { ...data, purpose }
+    setGlobalPurpose(purpose)
     // サインインしてルートに移動
     if (variant === "Login") {
       signIn("credentials", { ...data, redirect: false })

@@ -1,7 +1,7 @@
 import getShopItems from "@/app/action/getShopItems";
 import { useParams } from "next/navigation";
 import { FC } from "react";
-import ShopItemList from "./components/ShopItemList";
+import ShopItems from "./components/ShopItems"
 
 const Page: FC = async () => {
   const params = useParams()
@@ -14,7 +14,7 @@ const Page: FC = async () => {
     return <p>ショップに商品がありません</p>
   }
   return (
-    <ShopItemList items={shopItems} />
+    <ShopItems items={shopItems} />
   )
 }
 

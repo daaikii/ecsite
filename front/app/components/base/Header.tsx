@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 
+import { purpose } from "@/app/store/purpose"
+
 const Header: FC = () => {
   const { status } = useSession()
   return (
@@ -11,10 +13,20 @@ const Header: FC = () => {
       <Link href="/">
         <Image src="/" alt="logo" />
       </Link>
-      {status !== "authenticated" && <Link href="/auth">
-        Login
-      </Link>
-      }
+      <ul>
+        {purpose === "Shop" && (
+          <>
+            <li><Link href="/shop/currentShopItems">出品商品一覧</Link></li>
+          </>
+        )}
+        <li>
+          {status !== "authenticated" &&
+            <Link href="/auth">
+              Login
+            </Link>
+          }
+        </li>
+      </ul>
     </div>
   )
 }
