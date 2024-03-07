@@ -29,7 +29,7 @@ const Home: FC<ShopsProps> = ({ shops }) => {
             })
           })}
         </ul>
-        <Link href="item/within10kmItemList">詳しく見る</Link>
+        <Link href="item/within10kmItems">詳しく見る</Link>
       </section>
 
       <section>
@@ -43,7 +43,7 @@ const Home: FC<ShopsProps> = ({ shops }) => {
             )
           })}
         </ul>
-        <Link href="/shop/within10kmShopList">詳しく見る</Link>
+        <Link href="/shop/within10kmShops">詳しく見る</Link>
       </section>
     </>
   )
