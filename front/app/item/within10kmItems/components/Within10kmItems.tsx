@@ -1,3 +1,4 @@
+"use client"
 import { FC } from "react"
 
 import { ShopWithItems } from "@/app/type/prisma"
@@ -7,7 +8,7 @@ type ShopsProps = {
   shops: ShopWithItems[]
 }
 
-const Within10kmItemsList: FC<ShopsProps> = ({ shops }) => {
+const Within10kmItems: FC<ShopsProps> = ({ shops }) => {
   return (
     <>
       <h2>近くの商品</h2>
@@ -26,4 +27,4 @@ const Within10kmItemsList: FC<ShopsProps> = ({ shops }) => {
   )
 }
 
-export default Within10kmItemsList
+export default Within10kmItems

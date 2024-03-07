@@ -12,6 +12,9 @@ async function getCurrentShop() {
     const shop = await prisma.shop.findUnique({
       where: {
         email: session.user.email
+      },
+      include: {
+        items: true
       }
     })
     if (!shop) {
