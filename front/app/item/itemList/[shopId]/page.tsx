@@ -1,11 +1,16 @@
-import getShopItems from "@/app/action/getShopItems";
-import { useParams } from "next/navigation";
 import { FC } from "react";
+
+import getShopItems from "@/app/action/getShopItems";
 import ShopItems from "./components/ShopItems"
 
-const Page: FC = async () => {
-  const params = useParams()
-  const id = params.id
+type Params = {
+  params: {
+    shopId: string
+  }
+}
+
+const Page: FC<Params> = async ({ params }) => {
+  const id = params.shopId
   if (typeof id !== "string") {
     return null
   }

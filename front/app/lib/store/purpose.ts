@@ -11,6 +11,3 @@ export const useStore = create<Purpose>((set) => ({
     purpose: purpose
   }))
 }))
-
-export const purpose = useStore((state) => state.purpose)
-export const setGlobalPurpose = useStore((state) => state.setGlobalPurpose)

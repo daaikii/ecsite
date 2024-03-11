@@ -16,9 +16,7 @@ const Within10kmItems: FC<ShopsProps> = ({ shops }) => {
         {shops.map((shop) => {
           return shop.items.map((item) => {
             return (
-              <li key={item.id}>
-                <ItemCard item={item} />
-              </li>
+              <ItemCard item={item} />
             )
           })
         })}

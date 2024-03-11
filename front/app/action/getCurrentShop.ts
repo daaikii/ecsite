@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOption } from "@/app/api/auth/[...nextauth]/route"
 import prisma from "@/app/lib/prismadb"
 
-async function getCurrentShop() {
+export default async function getCurrentShop() {
   try {
     const session = await getServerSession(authOption)
     if (!session?.user?.email) {
@@ -25,5 +25,3 @@ async function getCurrentShop() {
     return null
   }
 }
-
-export default getCurrentShop
