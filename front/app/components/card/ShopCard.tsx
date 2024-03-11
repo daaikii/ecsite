@@ -10,7 +10,11 @@ type ShopProps = {
 const ShopCard: FC<ShopProps> = ({ shop }) => {
   return (
     <>
-      <Image src={shop.imageURL} alt="shop icon" />
+      <Image src={shop.imageURL} alt="shop icon"
+        width={0}
+        height={0}
+        style={{ width: "200px", height: "200px" }}
+      />
       <ul>
         <li key="item0">{shop.items[0]?.name}</li>
         <li key="item1">{shop.items[1]?.name}</li>

@@ -16,7 +16,7 @@ const Within10kmShops: FC<ShopsProps> = ({ shops }) => {
       <ul>
         {shops.map((shop) => {
           return (
-            <li key={shop.id} onClick={() => { router.push(`/shop/${shop.id}`) }}>
+            <li key={shop.id} onClick={() => { router.push(`/item/itemList/${shop.id}`) }}>
               <ShopCard shop={shop} />
             </li>
           )

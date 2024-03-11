@@ -14,9 +14,7 @@ const ShopItems: FC<ShopItemsProps> = async ({ items }) => {
       <ul>
         {items?.map((item) => {
           return (
-            <li>
-              <ItemCard item={item} />
-            </li>
+            <ItemCard item={item} />
           )
         })}
       </ul>

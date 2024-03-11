@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import ItemCard from "@/app/components/card/ItemCard";
 import { Item } from "@prisma/client";
-import { purpose } from "@/app/store/purpose";
+import { useStore } from "@/app/lib/store/purpose";
 
 type ShopItemsProps = {
   items: Item[]
@@ -12,7 +12,7 @@ type ShopItemsProps = {
 
 const CurrentShopItems: FC<ShopItemsProps> = async ({ items }) => {
   const router = useRouter()
-
+  const purpose = useStore((state) => state.purpose)
   useEffect(() => {
     if (purpose === "User") {
       router.push("/")
@@ -25,9 +25,7 @@ const CurrentShopItems: FC<ShopItemsProps> = async ({ items }) => {
       <ul>
         {items?.map((item) => {
           return (
-            <li>
-              <ItemCard item={item} />
-            </li>
+            <ItemCard item={item} />
           )
         })}
       </ul>

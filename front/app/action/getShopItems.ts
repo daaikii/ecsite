@@ -1,6 +1,6 @@
 import prisma from "@/app/lib/prismadb"
 
-async function getShopItems(id: string) {
+export default async function getShopItems(id: string) {
   try {
     const shop = await prisma.shop.findUnique({
       where: {
@@ -18,5 +18,3 @@ async function getShopItems(id: string) {
     return null
   }
 }
-
-export default getShopItems

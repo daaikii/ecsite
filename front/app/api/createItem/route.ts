@@ -20,7 +20,9 @@ export async function POST(request: Request) {
         detail,
         imageURL,
         shop: {
-          connect: shop
+          connect: {
+            id: shop.id
+          }
         }
       }
     })
