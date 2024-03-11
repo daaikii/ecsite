@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.6",
     "@prisma/client": "^5.9.1",
     "aws-sdk": "^2.1555.0",
     "axios": "^1.6.7",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/googlemaps": "^3.43.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -2,15 +2,15 @@ import { FieldValues } from "react-hook-form"
 import { S3 } from "aws-sdk"
 
 const s3 = new S3({
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  region: process.env.REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 })
 
 const uploadImageToS3 = async (data: FieldValues) => {
   const fileName = `${Date.now()}-${data.image[0].name}`;
   const params = {
-    Bucket: process.env.S3_BUCKET_NAME ? process.env.S3_BUCKET_NAME : '',
+    Bucket: process.env.AWS_S3_BUCKET_NAME ? process.env.AWS_S3_BUCKET_NAME : '',
     Key: fileName,
     ContentType: data.image[0].type,
     Body: data.image[0],

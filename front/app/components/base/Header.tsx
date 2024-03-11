@@ -4,15 +4,18 @@ import Link from "next/link"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 
-import { purpose } from "@/app/store/purpose"
+import { useStore } from "@/app/lib/store/purpose"
 
 const Header: FC = () => {
   const { status } = useSession()
+  const purpose = useStore((state) => state.purpose)
   return (
     <div className="h-20 bg-[#FF6565]">
-      <Link href="/">
-        <Image src="/" alt="logo" />
-      </Link>
+      <h1>
+        <Link href="/">
+          {/* <Image src="/" alt="logo" width={0} height={0} /> */}
+        </Link>
+      </h1>
       <ul>
         {purpose === "Shop" && (
           <>

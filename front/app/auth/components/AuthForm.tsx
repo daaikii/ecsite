@@ -9,7 +9,7 @@ import Input from "@/app/components/ui/Input"
 import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase"
 import uploadImageToS3 from "@/app/lib/s3"
-import { setGlobalPurpose } from "@/app/store/purpose"
+import { useStore } from "@/app/lib/store/purpose"
 
 const AuthForm: FC = () => {
 
@@ -21,6 +21,8 @@ const AuthForm: FC = () => {
   const watchLat = useWatch({ control, name: "lat" })
   const watchLng = useWatch({ control, name: "lng" })
   const session = useSession()
+  const setGlobalPurpose = useStore((state) => state.setGlobalPurpose)
+
 
   const changeVariant = useCallback(() => {
     variant === "Login" && setVariant("Register")

@@ -22,14 +22,18 @@ const Home: FC<ShopsProps> = ({ shops }) => {
           {shops?.map((shop) => {
             return shop.items.map((item) => {
               return (
-                <li key={item.id} onClick={() => router.push(`/item/${item.id}`)}>
-                  <Image src={item.imageURL} alt="Item Image" />
+                <li
+                  key={item.id}
+                  onClick={() => router.push(`/item/itemDetail/${item.id}`)}
+                  className="h-[120px] w-[120px]"
+                >
+                  <Image src={`${item.imageURL}`} alt="Item Image" fill />
                 </li>
               )
             })
           })}
         </ul>
-        <Link href="item/within10kmItems">詳しく見る</Link>
+        <Link href="item/itemList/within10kmItems">詳しく見る</Link>
       </section>
 
       <section>
@@ -37,7 +41,7 @@ const Home: FC<ShopsProps> = ({ shops }) => {
         <ul>
           {shops?.map((shop) => {
             return (
-              <li key={shop.id} onClick={() => router.push(`/shop/${shop.id}`)}>
+              <li key={shop.id} onClick={() => router.push(`/item/itemList/${shop.id}`)}>
                 <ShopCard shop={shop} />
               </li>
             )
