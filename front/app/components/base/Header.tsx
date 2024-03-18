@@ -2,34 +2,48 @@
 import { FC } from "react"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
-import Image from "next/image"
 
-import { useStore } from "@/app/lib/store/purpose"
+import { usePurposeStore, useStore } from "@/app/lib/store/purpose"
 
 const Header: FC = () => {
   const { status } = useSession()
-  const purpose = useStore((state) => state.purpose)
+  const purpose = useStore(usePurposeStore, state => state.purpose)
+  console.log(purpose)
   return (
-    <div className="h-20 bg-[#FF6565]">
-      <h1>
-        <Link href="/">
-          {/* <Image src="/" alt="logo" width={0} height={0} /> */}
-        </Link>
-      </h1>
-      <ul>
-        {purpose === "Shop" && (
-          <>
-            <li><Link href="/shop/currentShopItems">出品商品一覧</Link></li>
-          </>
-        )}
-        <li>
-          {status !== "authenticated" &&
-            <Link href="/auth">
-              Login
-            </Link>
+    <div className="bg-custom-main ">
+      <div className="
+      py-6 px-12 
+      flex justify-between items-end"
+      >
+        <h1 className="text-category text-white">
+          <Link href="/">
+            FoodLossZero
+          </Link>
+        </h1>
+        <ul className="flex ">
+          {purpose === "SHOP" &&
+            <>
+              <li className="ml-4 text-nav-item ">
+                <Link href="/shop/item/itemList/currentShopItems/1">
+                  出品一覧
+                </Link>
+              </li>
+              <li className="ml-4 text-nav-item">
+                <Link href="/shop/item/post">
+                  出品
+                </Link>
+              </li>
+            </>
           }
-        </li>
-      </ul>
+          {status !== "authenticated" &&
+            <li className="ml-4 text-nav-item">
+              <Link href="/auth">
+                LOGIN
+              </Link>
+            </li>
+          }
+        </ul>
+      </div>
     </div>
   )
 }

@@ -1,13 +1,37 @@
+import { useState, useEffect } from "react"
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
-type Purpose = {
-  purpose: "User" | "Shop"
-  setGlobalPurpose: (purpose: "User" | "Shop") => void
+type State = {
+  purpose: "USER" | "SHOP"
 }
 
-export const useStore = create<Purpose>((set) => ({
-  purpose: "User",
-  setGlobalPurpose: (purpose: "User" | "Shop") => set(() => ({
-    purpose: purpose
-  }))
-}))
+type Action = {
+  setGlobalPurpose: (purpose: "USER" | "SHOP") => void
+}
+
+
+export const usePurposeStore = create<State & Action>()(
+  persist(
+    (set) => ({
+      purpose: "USER",
+      setGlobalPurpose: (purpose: "USER" | "SHOP") => set(() => ({
+        purpose: purpose
+      }))
+    }), { name: "purpose-storage" }
+  )
+)
+
+export const useStore = <T, F>(
+  store: (callback: (state: T) => unknown) => unknown,
+  callback: (state: T) => F,
+) => {
+  const result = store(callback) as F;
+  const [data, setData] = useState<F>();
+
+  useEffect(() => {
+    setData(result);
+  }, [result]);
+
+  return data;
+}

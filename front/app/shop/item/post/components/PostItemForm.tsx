@@ -9,16 +9,16 @@ import Textarea from "@/app/components/ui/Textarea"
 import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase";
 import uploadImageToS3 from "@/app/lib/s3"
-import { useStore } from "@/app/lib/store/purpose";
+import { usePurposeStore, useStore } from "@/app/lib/store/purpose";
 
 const ItemPostForm: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { register, control, handleSubmit, formState: { errors } } = useForm()
   const router = useRouter()
-  const purpose = useStore((state) => state.purpose)
+  const purpose = useStore(usePurposeStore, state => state.purpose)
 
   useEffect(() => {
-    if (purpose === "User") {
+    if (purpose === "USER") {
       router.push("/")
     }
   }, [purpose])

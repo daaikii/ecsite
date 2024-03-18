@@ -13,9 +13,9 @@ const Button: FC<ButtonProps> = ({ label, disabled, onClick }) => {
       disabled={disabled}
       className='
         bg-[#ff6565]
+          mb-6 p-2
           text-white
           w-full
-          p-2
          '
     >
       {label}
