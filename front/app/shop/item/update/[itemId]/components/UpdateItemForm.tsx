@@ -10,30 +10,47 @@ import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase";
 import uploadImageToS3 from "@/app/lib/s3"
 import { usePurposeStore, useStore } from "@/app/lib/store/purpose";
+import { Item } from "@prisma/client";
 
-const ItemPostForm: FC = () => {
+type Props = {
+  item: Item,
+  isCurrentUser: boolean
+}
+
+const UpdateItemForm: FC<Props> = ({ item, isCurrentUser }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { register, control, handleSubmit, formState: { errors } } = useForm()
+  const { register, control, handleSubmit, formState: { errors }, setValue, getValues } = useForm()
   const router = useRouter()
   const purpose = useStore(usePurposeStore, state => state.purpose)
 
   useEffect(() => {
-    if (purpose === "USER") {
+    if (purpose === "USER" && isCurrentUser) {
       router.push("/")
     }
+    setValue("name", item.name)
+    setValue("price", item.price)
+    setValue("expiration", item.expirationDate)
+    setValue("stock", item.stock)
+    setValue("detail", item.detail)
   }, [purpose])
 
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     setIsLoading(true)
     //画像を保存しURLを返却、そのURLと入力からitemを作成
-    const imageURL = await uploadImageToS3(data, "")
+    let imageURL
+    const imageValue = getValues("image")
+    if (imageValue.length) {
+      imageURL = await uploadImageToS3(data, item.imageURL)
+    } else {
+      imageURL = item.imageURL
+    }
     if (!imageURL) {
       return null
     }
-    data = { ...data, imageURL }
+    data = { ...data, id: item.id, imageURL }
     axios
-      .post("/api/createItem", data)
+      .post("/api/updateItem", data)
       .then(() => {
         router.push("/")
       })
@@ -50,11 +67,11 @@ const ItemPostForm: FC = () => {
         <Input disabled={isLoading} required register={register} errors={errors} type="text" id="expiration" label="Expiration" />
         <Input disabled={isLoading} required register={register} errors={errors} type="text" id="stock" label="Stock" forNumber />
         <Textarea disabled={isLoading} required register={register} errors={errors} id="detail" label="Detail" />
-        <Input disabled={isLoading} required register={register} errors={errors} type="file" id="image" label="Image" control={control} />
+        <Input disabled={isLoading} required={false} register={register} errors={errors} type="file" id="image" label="Image" control={control} />
         <Button label="出品" disabled={isLoading} />
       </form>
     </FormBase>
   )
 }
 
-export default ItemPostForm
+export default UpdateItemForm

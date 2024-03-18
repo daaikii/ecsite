@@ -63,9 +63,10 @@ body {
   }
   .text-nav-item{
     @apply 
-    text-white text-xs font-bold 
+    text-white font-bold text-xs
     hover:border-b-2
     hover:mb-[-2px]
+    md:text-sm
   }
   .animation-appear{
    animation:appear 3s ease
