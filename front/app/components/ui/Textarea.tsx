@@ -22,16 +22,16 @@ const Input: FC<InputProps> = ({
 }) => {
   return (
     <div className='mb-6'>
-      <p>{errors[id]?.message as String}</p>
+      <p>{errors[id]?.message as string}</p>
       <label
         htmlFor={id}
         className={clsx(
           // 共通スタイル
           `
+            mb-2
             block 
             text-l 
             font-bold 
-            mb-2
           `
         )}
       >

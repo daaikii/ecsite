@@ -19,14 +19,14 @@ export const authOption = {
             return null
           }
           let user
-          if (credentials.purpose === "User") {
+          if (credentials.purpose === "USER") {
             user = await prisma.user.findUnique({
               where: {
                 email: credentials.email
               }
             })
           }
-          if (credentials.purpose === "Shop") {
+          if (credentials.purpose === "SHOP") {
             user = await prisma.shop.findUnique({
               where: {
                 email: credentials.email
@@ -50,7 +50,7 @@ export const authOption = {
       }
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
 }
 
 const handler = NextAuth(authOption)

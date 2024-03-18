@@ -1,53 +1,126 @@
 "use client"
-import { FC } from "react"
-import { useRouter } from "next/navigation"
-
-import { ShopWithItems } from "@/app/type/prisma"
-import ShopCard from "@/app/components/card/ShopCard"
+import { FC, useMemo } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { SwiperSlide } from "swiper/react"
 
+import { ShopWithItems } from "@/app/types/prisma"
+import ShopCard from "@/app/components/card/ShopCard"
+import ItemCard from "@/app/components/card/ItemCard"
+import Slider from "@/app/components/ui/Slider"
+import { Item } from "@prisma/client"
 
 type ShopsProps = {
   shops: ShopWithItems[]
+  items: Item[]
 }
 
-const Home: FC<ShopsProps> = ({ shops }) => {
-  const router = useRouter()
+
+const Home: FC<ShopsProps> = ({ shops, items }) => {
+
+  const itemSlideSettings = useMemo(() => (
+    {
+      0: {
+        slidesPerView: 1,
+        spaceBetween: 0,
+      },
+      640: {
+        slidesPerView: 3,
+        spaceBetween: 0,
+      },
+      1024: {
+        slidesPerView: 4,
+        spaceBetween: 1,
+      },
+      1280: {
+        slidesPerView: 5,
+        spaceBetween: 1,
+      },
+      1536: {
+        slidesPerView: 10,
+        spaceBetween: 1,
+      }
+    }
+  ), [])
+
+  const shopSlideSettings = useMemo(() => (
+    {
+      0: {
+        slidesPerView: 1,
+        spaceBetween: 0,
+      },
+      640: {
+        slidesPerView: 3,
+        spaceBetween: 1,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 1,
+      },
+      1280: {
+        slidesPerView: 4,
+        spaceBetween: 1,
+      },
+      1536: {
+        slidesPerView: 7,
+        spaceBetween: 1,
+      }
+    }
+  ), [])
+
   return (
     <>
-      <section>
-        <h2>近くの商品一覧</h2>
-        <ul>
-          {shops?.map((shop) => {
-            return shop.items.map((item) => {
-              return (
-                <li
-                  key={item.id}
-                  onClick={() => router.push(`/item/itemDetail/${item.id}`)}
-                  className="h-[120px] w-[120px]"
-                >
-                  <Image src={`${item.imageURL}`} alt="Item Image" fill />
-                </li>
-              )
-            })
-          })}
+      <section className="py-8  px-[40px] md:px-[120px]">
+        <h2 className="mb-6 text-category">近くの商品一覧</h2>
+        <ul className="flex">
+          <Slider slideSettings={itemSlideSettings}>
+            {
+              items.map((item, index) => {
+                return (
+                  <SwiperSlide key={index} >
+                    <ItemCard item={item} />
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Slider>
         </ul>
-        <Link href="item/itemList/within10kmItems">詳しく見る</Link>
-      </section>
+        <Link
+          className="text-link "
+          href="/shop/item/itemList/within10kmItems/1"
+        >
+          詳しく見る
+        </Link>
+      </section >
 
-      <section>
-        <h2>近くの店舗一覧</h2>
-        <ul>
-          {shops?.map((shop) => {
-            return (
-              <li key={shop.id} onClick={() => router.push(`/item/itemList/${shop.id}`)}>
-                <ShopCard shop={shop} />
-              </li>
-            )
-          })}
+
+      <section className="
+        py-8  px-[40px]
+        bg-custom-gray_light
+        md:px-[120px]"
+      >
+        <h2 className="mb-6 text-category">近くの店舗一覧</h2>
+        <ul className="
+        flex
+        max-sm:[&>li:nth-child(n+3)]:hidden  
+        sm:max-md:[&>li:nth-child(n+4)]:hidden
+        "
+        >
+          <Slider slideSettings={shopSlideSettings}>
+            {
+              shops?.map((shop, index) => {
+                return (
+                  index < 7 &&
+                  <SwiperSlide key={index}>
+                    <ShopCard shop={shop} />
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Slider>
         </ul>
-        <Link href="/shop/within10kmShops">詳しく見る</Link>
+        <Link
+          className="text-link"
+          href="/shop/within10kmShops/1">詳しく見る</Link>
       </section>
     </>
   )

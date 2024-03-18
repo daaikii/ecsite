@@ -4,10 +4,8 @@ type FormBaseProps = { children: React.ReactNode }
 
 const FormBase: FC<FormBaseProps> = ({ children }) => {
   return (
-    <div className="px-[480px] py-[40px] ">
-      <div className="bg-white text-center min-h-[500px] px-60 py-10 ">
-        {children}
-      </div>
+    <div className="px-[100px] lg:px-[200px]  xl:px-[500px] py-10 text-center ">
+      {children}
     </div>
   )
 }

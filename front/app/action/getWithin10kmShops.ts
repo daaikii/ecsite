@@ -1,9 +1,9 @@
 import prisma from "@/app/lib/prismadb"
 import useCalcDistance from "@/app/utils/useCalcDistance"
-import { ShopWithItems } from "../type/prisma"
+import { ShopWithItems } from "../types/prisma"
 
 export default async function getShop() {
-  let userLocation = { lat2: 32.674552059110674, lng2: 130.28795159509326 }
+  let userLocation = { lat2: 35.65062086741866, lng2: 139.29318212818947 }
   try {
     // userの位置情報を取得
     // navigator.geolocation.getCurrentPosition((position) => {

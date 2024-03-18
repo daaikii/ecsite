@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
     // purposeから作成するアカウントを決める
-    if (purpose === "User") {
+    if (purpose === "USER") {
       const user = await prisma.user.create({
         data: {
           email,
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       })
       return NextResponse.json(user)
     }
-    if (purpose === "Shop") {
+    if (purpose === "SHOP") {
       const shop = await prisma.shop.create({
         data: {
           email,
@@ -33,6 +33,6 @@ export async function POST(request: Request) {
       return NextResponse.json(shop)
     }
   } catch (error) {
-    return new NextResponse('Error', { status: 500 });
+    return new NextResponse(`${error}`, { status: 500 });
   }
 } 
