@@ -73,7 +73,7 @@ const AuthForm: FC = () => {
     if (variant === "REGISTER") {
       // ShopのS3の画像保存
       if (purpose === "SHOP") {
-        const imageURL = await uploadImageToS3(data)
+        const imageURL = await uploadImageToS3(data, "")
         if (!imageURL) {
           return null
         }

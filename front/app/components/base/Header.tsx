@@ -8,7 +8,6 @@ import { usePurposeStore, useStore } from "@/app/lib/store/purpose"
 const Header: FC = () => {
   const { status } = useSession()
   const purpose = useStore(usePurposeStore, state => state.purpose)
-  console.log(purpose)
   return (
     <div className="bg-custom-main ">
       <div className="
@@ -20,10 +19,10 @@ const Header: FC = () => {
             FoodLossZero
           </Link>
         </h1>
-        <ul className="flex ">
+        <ul className="flex">
           {purpose === "SHOP" &&
             <>
-              <li className="ml-4 text-nav-item ">
+              <li className="ml-4 text-nav-item">
                 <Link href="/shop/item/itemList/currentShopItems/1">
                   出品一覧
                 </Link>
