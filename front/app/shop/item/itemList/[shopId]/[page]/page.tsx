@@ -3,8 +3,6 @@ import { FC } from "react";
 import getShopItems from "@/app/action/getShopItems";
 import ItemList from "@/app/shop/item/itemList/components/ItemList"
 
-import { shop } from "@/app/mock"
-import Head from "next/head";
 
 type Params = {
   params: {
@@ -18,20 +16,24 @@ const Page: FC<Params> = async ({ params }) => {
   let page = Number(params.page)
   page = page || 1
 
-  // const shopItems = await getShopItems(id)
-  // if (!shopItems) {
-  //   return <p>ショップに商品がありません</p>
-  // }
-  // const items = shopItems.slice(page - 1, page * 30)
-  const items = shop.items.slice(page - 1, page * 30)
+  const shopItems = await getShopItems(id)
+  if (!shopItems) {
+    return (
+      <div className="
+      h-[calc(100vh-80px)]
+      flex items-center justify-center
+      "
+      >
+        <p>ショップに商品が見つかりません</p>
+      </div >
+    )
+  }
+  const items = shopItems.slice(page - 1, page * 30)
   return (
-    // <ItemList items={shopItems} />
     <>
-      <Head>
-        <title>{`SHOP ITEM LIST$ {page}`}</title>
-        <meta name="description" content="" />
-      </Head>
-      <ItemList items={items} page={page} itemLength={shop.items.length} />
+      <title>{`SHOP ITEM LIST$ {page}`}</title>
+      <meta name="description" content="" />
+      <ItemList items={items} page={page} itemLength={shopItems.length} />
     </>
   )
 }
