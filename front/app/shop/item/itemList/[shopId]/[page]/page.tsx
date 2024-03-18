@@ -4,6 +4,7 @@ import getShopItems from "@/app/action/getShopItems";
 import ItemList from "@/app/shop/item/itemList/components/ItemList"
 
 import { shop } from "@/app/mock"
+import Head from "next/head";
 
 type Params = {
   params: {
@@ -25,7 +26,13 @@ const Page: FC<Params> = async ({ params }) => {
   const items = shop.items.slice(page - 1, page * 30)
   return (
     // <ItemList items={shopItems} />
-    <ItemList items={items} page={page} itemLength={shop.items.length} />
+    <>
+      <Head>
+        <title>{`SHOP ITEM LIST$ {page}`}</title>
+        <meta name="description" content="" />
+      </Head>
+      <ItemList items={items} page={page} itemLength={shop.items.length} />
+    </>
   )
 }
 

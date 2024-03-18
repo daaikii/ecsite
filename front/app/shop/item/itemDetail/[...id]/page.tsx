@@ -4,6 +4,7 @@ import ItemDetail from "./components/ItemDetail"
 import getIdItem from "@/app/action/getIdItem"
 import getCurrentShop from "@/app/action/getCurrentShop";
 import getCurrentUser from "@/app/action/getCurrentUser";
+import Head from "next/head";
 
 type Params = {
   params: {
@@ -26,7 +27,13 @@ const Page: FC<Params> = async ({ params }) => {
     return <p>商品が見つかりません</p>
   }
   return (
-    <ItemDetail item={item} isCurrentUser={item.shop.id === user?.id} />
+    <>
+      <Head>
+        <title>ITEM DETAIL</title>
+        <meta name="description" content="" />
+      </Head>
+      <ItemDetail item={item} isCurrentUser={item.shop.id === user?.id} />
+    </>
   )
 }
 

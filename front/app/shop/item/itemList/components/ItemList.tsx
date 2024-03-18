@@ -3,7 +3,7 @@ import { FC } from "react"
 import { usePathname } from "next/navigation"
 
 import ItemCard from "@/app/components/card/ItemCard"
-import Pagination from "@/app/components/ui/Pagenation"
+import Pagination from "@/app/components/ui/Pagination"
 import { Item } from "@prisma/client"
 
 type ItemsProps = {
