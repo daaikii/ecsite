@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 
 import { ShopWithItems } from "@/app/types/prisma"
 import ShopCard from "@/app/components/card/ShopCard"
-import Pagination from "@/app/components/ui/Pagenation"
+import Pagination from "@/app/components/ui/Pagination"
 
 type ShopsProps = {
   shops: ShopWithItems[],

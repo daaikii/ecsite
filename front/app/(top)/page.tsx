@@ -1,4 +1,5 @@
 import { FC } from "react"
+import Head from "next/head"
 
 import { Item } from "@prisma/client"
 import Home from "./components/Home"
@@ -14,7 +15,15 @@ const Page: FC = async () => {
       items = [...items, ...shop.items]
     }
   })
-  return <Home shops={shops} items={items} />
+  return (
+    <>
+      <Head>
+        <title>HOME</title>
+        <meta name="description" content="" />
+      </Head>
+      <Home shops={shops} items={items} />
+    </>
+  )
 }
 
 export default Page

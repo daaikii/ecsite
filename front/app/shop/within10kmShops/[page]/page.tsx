@@ -4,6 +4,7 @@ import getWithin10kmShops from "@/app/action/getWithin10kmShops"
 import Within10kmShops from "@/app/shop/within10kmShops/components/ShopList"
 
 import { shops } from "@/app/mock"
+import Head from "next/head"
 
 type Props = {
   params: {
@@ -21,7 +22,15 @@ const Page: FC<Props> = async ({ params }) => {
   // }
 
   const shopsProps = shops.slice((page - 1) * 21, page * 21)
-  return <Within10kmShops shops={shopsProps} page={page} itemLength={shops.length} />
+  return (
+    <>
+      <Head>
+        <title>{`WITHIN 10KM SHOP LIST${page}`}</title>
+        <meta name="description" content="" />
+      </Head>
+      <Within10kmShops shops={shopsProps} page={page} itemLength={shops.length} />
+    </>
+  )
 }
 
 export default Page

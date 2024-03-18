@@ -4,6 +4,7 @@ import ItemList from "@/app/shop/item/itemList/components/ItemList";
 import getCurrentShop from "@/app/action/getCurrentShop";
 
 import { shop } from "@/app/mock";
+import Head from "next/head";
 
 type Props = {
   params: {
@@ -23,7 +24,13 @@ const Page: FC<Props> = async ({ params }) => {
   // const items = currentShop.items.slice(page - 1, page * 30)
   const items = shop.items.slice(page - 1, page * 30)
   return (
-    <ItemList items={items} page={page} itemLength={shop.items.length} />
+    <>
+      <Head>
+        <title>{`CURRENT SHOP ITEM LIST ${page}`}</title>
+        <meta name="description" content="" />
+      </Head>
+      <ItemList items={items} page={page} itemLength={shop.items.length} />
+    </>
   )
 }
 
