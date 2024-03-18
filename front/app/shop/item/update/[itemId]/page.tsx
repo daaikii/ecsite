@@ -4,7 +4,6 @@ import UpdateItemForm from "@/app/shop/item/update/[itemId]/components/UpdateIte
 import getIdItem from "@/app/action/getIdItem";
 import getCurrentShop from "@/app/action/getCurrentShop";
 import getCurrentUser from "@/app/action/getCurrentUser";
-import Head from "next/head";
 
 type Props = {
   params: {
@@ -23,14 +22,20 @@ const Page: FC<Props> = async ({ params }) => {
     user = await getCurrentUser()
   }
   if (!item) {
-    return <p>商品が見つかりません</p>
+    return (
+      <div className="
+      h-[calc(100vh-80px)]
+      flex items-center justify-center
+      "
+      >
+        <p>商品が見つかりません</p>
+      </div >
+    )
   }
   return (
     <>
-      <Head>
-        <title>UPDATE ITEM FORM</title>
-        <meta name="description" content="" />
-      </Head>
+      <title>UPDATE ITEM FORM</title>
+      <meta name="description" content="" />
       <UpdateItemForm item={item} isCurrentUser={user?.id === item.shop.id} />
     </>
   )

@@ -54,9 +54,9 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
         lg:max-xl:[&>li:nth-child(-n+2))]:mr-2 
         "
         >
-          <li key="item0" className="mb border-b text-sm">{shop.items[0]?.name}</li>
-          <li key="item1" className="mb border-b text-sm">{shop.items[1]?.name}</li>
-          <li key="item2" className="mb text-sm">{shop.items[2]?.name}</li>
+          <li key="item0" className="mb border-b text-sm">{shop.items[0]?.name || "ー"}</li>
+          <li key="item1" className="mb border-b text-sm">{shop.items[1]?.name || "ー"}</li>
+          <li key="item2" className="mb text-sm">{shop.items[2]?.name || "ー"}</li>
         </ul>
       </div>
     </li>
