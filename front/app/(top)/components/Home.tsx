@@ -20,23 +20,23 @@ const Home: FC<ShopsProps> = ({ shops, items }) => {
   const itemSlideSettings = useMemo(() => (
     {
       0: {
-        slidesPerView: 1,
+        slidesPerView: items.length < 1 ? 0 : 1,
         spaceBetween: 0,
       },
       640: {
-        slidesPerView: 3,
+        slidesPerView: items.length < 3 ? items.length : 3,
         spaceBetween: 0,
       },
       1024: {
-        slidesPerView: 4,
+        slidesPerView: items.length < 4 ? items.length : 4,
         spaceBetween: 1,
       },
       1280: {
-        slidesPerView: 5,
+        slidesPerView: items.length < 5 ? items.length : 5,
         spaceBetween: 1,
       },
       1536: {
-        slidesPerView: 10,
+        slidesPerView: items.length < 10 ? items.length : 10,
         spaceBetween: 1,
       }
     }
@@ -45,23 +45,23 @@ const Home: FC<ShopsProps> = ({ shops, items }) => {
   const shopSlideSettings = useMemo(() => (
     {
       0: {
-        slidesPerView: 1,
+        slidesPerView: shops.length < 1 ? 0 : 1,
         spaceBetween: 0,
       },
       640: {
-        slidesPerView: 3,
+        slidesPerView: shops.length < 3 ? shops.length : 3,
         spaceBetween: 1,
       },
       1024: {
-        slidesPerView: 3,
+        slidesPerView: shops.length < 3 ? shops.length : 3,
         spaceBetween: 1,
       },
       1280: {
-        slidesPerView: 4,
+        slidesPerView: shops.length < 4 ? shops.length : 4,
         spaceBetween: 1,
       },
       1536: {
-        slidesPerView: 7,
+        slidesPerView: shops.length < 7 ? shops.length : 7,
         spaceBetween: 1,
       }
     }
