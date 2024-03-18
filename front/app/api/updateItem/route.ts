@@ -10,8 +10,11 @@ export async function POST(request: Request) {
       throw new Error("shop is not in database")
     }
     const body = await request.json()
-    const { name, price, expiration, stock, detail, imageURL } = body
-    const item = await prisma.item.create({
+    const { id, name, price, expiration, stock, detail, imageURL } = body
+    const item = await prisma.item.update({
+      where: {
+        id: id
+      },
       data: {
         name,
         price,
@@ -29,6 +32,6 @@ export async function POST(request: Request) {
     return NextResponse.json(item)
   }
   catch (error) {
-    return new NextResponse("Error", { status: 500 });
+    return new NextResponse(error as string, { status: 500 });
   }
 }

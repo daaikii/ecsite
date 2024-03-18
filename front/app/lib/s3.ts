@@ -7,7 +7,7 @@ const s3 = new S3({
   region: process.env.AWS_REGION,
 })
 
-const uploadImageToS3 = async (data: FieldValues) => {
+const uploadImageToS3 = async (data: FieldValues, imageURL: string) => {
   const fileName = `${Date.now()}-${data.image[0].name}`;
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME ? process.env.AWS_S3_BUCKET_NAME : '',
@@ -16,9 +16,15 @@ const uploadImageToS3 = async (data: FieldValues) => {
     Body: data.image[0],
   }
   try {
+    if (imageURL) {
+      await s3.deleteObject({
+        Bucket: process.env.AWS_S3_BUCKET_NAME as string,
+        Key: imageURL
+      }, function (error, data) { })
+    }
     const s3ResponseData = await s3.upload(params).promise()
-    const imageURL = s3ResponseData.Location
-    return imageURL
+    const url = s3ResponseData.Location
+    return url
   } catch (error) {
     console.log(error)
     throw new Error("failed to upload Image to S3")

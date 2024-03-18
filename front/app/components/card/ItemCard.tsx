@@ -4,6 +4,7 @@ import Image from "next/image"
 
 import { Item } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { usePurposeStore, useStore } from "@/app/lib/store/purpose";
 
 type ItemCardProps = {
   item: Item
@@ -11,6 +12,7 @@ type ItemCardProps = {
 
 const ItemCard: FC<ItemCardProps> = ({ item }) => {
   const router = useRouter()
+  const purpose = useStore(usePurposeStore, state => state.purpose)
   return (
     <li
       className="
@@ -33,7 +35,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
         hover:outline-dotted
         hover:outline-1
       "
-        onClick={() => router.push(`/shop/item/itemDetail/${item.id}`)}
+        onClick={() => router.push(`/shop/item/itemDetail/${item.id}/${purpose}`)}
       >
         <div
           className="
