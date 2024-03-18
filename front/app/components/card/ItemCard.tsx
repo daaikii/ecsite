@@ -12,10 +12,44 @@ type ItemCardProps = {
 const ItemCard: FC<ItemCardProps> = ({ item }) => {
   const router = useRouter()
   return (
-    <li onClick={() => router.push(`/item/itemDetail/${item.id}`)} key={item.id}>
-      <Image src={item.imageURL} alt={item.name} width={0} height={0} />
-      <p>{item.name}</p>
-      <p>{item.price}</p>
+    <li
+      className="
+        mb-8
+        w-[100%]
+        xl:w-[10%]
+      "
+      key={item.id}
+    >
+      <div
+        className="
+        flex
+        items-center
+        xl:list-item
+        mx-auto
+        w-[100%]
+        xl:w-[120px]
+        cursor-pointer
+        text-center
+        hover:outline-dotted
+        hover:outline-1
+      "
+        onClick={() => router.push(`/shop/item/itemDetail/${item.id}`)}
+      >
+        <div
+          className="
+          relative 
+          h-[120px] 
+          w-[60%]
+          xl:w-[120px]
+          "
+        >
+          <Image src={item.imageURL} alt={item.name} fill objectFit="cover" />
+        </div>
+        <div className="text-center w-[40%] xl:w-[120px]">
+          <p className="text-sm font-bold">{item.name}</p>
+          <p className="font-bold text-custom-point">￥{item.price}</p>
+        </div>
+      </div>
     </li>
   )
 }

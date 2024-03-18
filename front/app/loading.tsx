@@ -1,7 +1,15 @@
 import { FC } from "react"
 
 const Loading: FC = () => {
-  return <p>...Loading</p>
+  return (
+    <div className="
+    h-[calc(100vh-80px)]
+    flex items-center justify-center
+    "
+    >
+      <div className=" loader"></div >
+    </div >
+  )
 }
 
 export default Loading

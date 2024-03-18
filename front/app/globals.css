@@ -24,8 +24,8 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-  min-height:100vh;
-  background-color:#F9F9F9;
+  background-color:white;
+  color:#595959
 }
 
 @layer utilities {
@@ -33,3 +33,52 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes appear {
+  30% { 
+    span:nth-child(1){
+      opacity:1;
+    }
+  }
+  60% { 
+    span:nth-child(2){
+      opacity:1;
+    }
+  }
+  90% { 
+    span:nth-child(3){
+      opacity:1;
+    }
+  }
+}
+
+@layer components{
+  .text-category{
+    @apply text-2xl font-bold
+  }
+  .text-link{
+    @apply 
+    text-xs text-custom-point
+    cursor-pointer 
+  }
+  .text-nav-item{
+    @apply 
+    text-white text-xs font-bold 
+    hover:border-b-2
+    hover:mb-[-2px]
+  }
+  .animation-appear{
+   animation:appear 3s ease
+  }
+}
+
+/* https://css-loaders.com/spinner/ */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid lightblue;
+  border-right-color: orange;
+  animation: l2 1s infinite linear;
+}
+@keyframes l2 {to{transform: rotate(1turn)}}
