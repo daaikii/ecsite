@@ -1,25 +1,41 @@
 version: '3.9'
 services:
   front:
-    build: .
-    working_dir: /front
-    volumes:
-      - ./front:/front
-      - node_modules:/front/node_modules
+    build: 
+      context: .
+      target: runner
+    ports:
+      - 3000:3000
+    environment:
+      -  WATCHPACK_POLLING=true
+    tty: true
+    # depends_on:
+    #   - db
+
+  font_dev:
+    build:
+      context: .
+      traget: dev
+    volumes: 
+      - ./:/app
     ports:
       - 3000:3000
       - 5555:5555
-    command: npm run dev
     environment:
-      -  WATCHPACK_POLLING=true next dev
-  db:
-    image: mysql:8.3.0
-    volumes:
-      - db:/ver/lib/mysql
-    ports:
-      - 3306:3306
-    env_file:
-      - /front/.env
-volumes:
-  node_modules:
-  db:
+      - WATCHPACK_POLLING=true
+    tty: true
+    command: npm run dev
+    # depends_on:
+    #   - db
+
+  # db:
+  #   image: mysql:8.3.0
+  #   volumes:
+  #     - db:/ver/lib/mysql
+  #   ports:
+  #     - 3306:3306
+  #   env_file:
+  #     - .env
+
+# volumes:
+#   db:
