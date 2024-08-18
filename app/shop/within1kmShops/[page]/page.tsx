@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 import getWithin1kmShops from "@/app/action/getWithin1kmShops"
 import Within1kmShops from "@/app/shop/within1kmShops/components/ShopList"
-import ErrorComponent from "@/app/components/errorComponent"
+import ErrorComponent from "@/app/components/ErrorComponent"
 
 type Props = {
   params: {
