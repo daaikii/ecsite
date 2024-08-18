@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 import { Item } from "@prisma/client"
 import Home from "./components/Home"
 import getWithin1kmShops from "@/app/action/getWithin1kmShops"
-import ErrorComponent from "../components/errorComponent"
+import ErrorComponent from "../components/ErrorComponent"
 
 const Page: FC = async () => {
   const shops = await getWithin1kmShops()

@@ -4,7 +4,7 @@ import UpdateItemForm from "@/app/item/update/[itemId]/components/UpdateItemForm
 import getIdItem from "@/app/action/getSelectItem";
 import getCurrentShop from "@/app/action/getCurrentShop";
 import getCurrentUser from "@/app/action/getCurrentUser";
-import ErrorComponent from "@/app/components/errorComponent";
+import ErrorComponent from "@/app/components/ErrorComponent";
 
 type Props = {
   params: {

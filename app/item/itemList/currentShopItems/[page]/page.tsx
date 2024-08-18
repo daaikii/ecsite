@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import ItemList from "@/app/item/itemList/ItemList";
 import getCurrentShop from "@/app/action/getCurrentShop";
-import ErrorComponent from "@/app/components/errorComponent";
+import ErrorComponent from "@/app/components/ErrorComponent";
 
 type Props = {
   params: {

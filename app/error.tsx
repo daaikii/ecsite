@@ -1,6 +1,6 @@
 "use client"
 import { FC } from "react"
-import ErrorComponent from "./components/errorComponent"
+import ErrorComponent from "./components/ErrorComponent"
 
 const Error: FC = () => {
   return (

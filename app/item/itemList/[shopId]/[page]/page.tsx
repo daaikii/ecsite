@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import getShopItems from "@/app/action/getShopItems";
 import ItemList from "@/app/item/itemList/ItemList"
-import ErrorComponent from "@/app/components/errorComponent";
+import ErrorComponent from "@/app/components/ErrorComponent";
 import { NextResponse } from "next/server";
 
 

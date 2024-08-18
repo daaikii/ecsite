@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 import getWithin1kmShops from "@/app/action/getWithin1kmShops"
 import ItemList from "@/app/item/itemList/ItemList"
 import { Item } from "@prisma/client"
-import ErrorComponent from "@/app/components/errorComponent"
+import ErrorComponent from "@/app/components/ErrorComponent"
 
 
 type Props = {

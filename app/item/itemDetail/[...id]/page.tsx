@@ -4,7 +4,7 @@ import getIdItem from "@/app/action/getSelectItem"
 import getCurrentShop from "@/app/action/getCurrentShop";
 import getCurrentUser from "@/app/action/getCurrentUser";
 import ItemDetail from "./components/ItemDetail"
-import ErrorComponent from "@/app/components/errorComponent";
+import ErrorComponent from "@/app/components/ErrorComponent";
 
 type Params = {
   params: {
