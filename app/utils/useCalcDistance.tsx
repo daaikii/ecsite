@@ -3,14 +3,14 @@ const R = Math.PI / 180;
 
 const useCalcDistance =
   (
-    { lat1, lng1 }: { lat1: number, lng1: number },
-    { lat2, lng2 }: { lat2: number, lng2: number }
+    { shopLat, shopLng }: { shopLat: number, shopLng: number },
+    { userLat, userLng }: { userLat: number, userLng: number }
   ) => {
-    lat1 *= R;
-    lng1 *= R;
-    lat2 *= R;
-    lng2 *= R;
-    return 6371 * Math.acos(Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1) + Math.sin(lat1) * Math.sin(lat2));
+    shopLat *= R;
+    shopLng *= R;
+    userLat *= R;
+    userLng *= R;
+    return 6371 * Math.acos(Math.cos(shopLat) * Math.cos(userLat) * Math.cos(userLng - shopLng) + Math.sin(shopLat) * Math.sin(userLat));
   }
 
 export default useCalcDistance

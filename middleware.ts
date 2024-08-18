@@ -1,7 +1,6 @@
 import { withAuth } from "next-auth/middleware"
 
 export default withAuth(
-  // Matches the pages config in `[...nextauth]`
   {
     pages: {
       signIn: '/auth',
@@ -10,5 +9,7 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: "/((?!register|api|auth).*)"
+  matcher: [
+    '/((?!register|api|auth|$).*)',
+  ],
 };

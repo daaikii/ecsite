@@ -1,7 +1,8 @@
 "use client"
 import { FC } from "react"
-import { UseFormRegister, FieldValues, FieldErrors, Control, useWatch } from "react-hook-form"
+import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form"
 import clsx from "clsx"
+import { FaExclamationTriangle } from "react-icons/fa";
 
 type InputProps = {
   disabled: boolean,
@@ -10,8 +11,8 @@ type InputProps = {
   errors: FieldErrors<FieldValues>
   type: string,
   id: string,
-  label: string,
-  control?: Control,
+  label?: string,
+  placeholder?: string,
   forNumber?: boolean,
 }
 
@@ -23,72 +24,39 @@ const Input: FC<InputProps> = ({
   type,
   id,
   label,
-  control,
+  placeholder,
   forNumber,
 }) => {
-  let watch
-  if (control) {
-    watch = useWatch({ name: id, control })
-  }
   return (
     <div className='mb-6'>
-      <p>{errors[id]?.message as string}</p>
-      <label
-        htmlFor={id}
-        className={clsx(
-          // 共通スタイル
-          `
-            mb-2
-            block 
-            text-l 
-            font-bold 
-          `
-          ,
-          // 画像のinput
-          type === "file" &&
-          ` 
-            cursor-pointer
-            border
-            border-[#d9d9d9] 
-            py-2
-          `
-          ,
-          // 画像が選択されたら色を変更
-          (type === 'file' && watch?.length) &&
-          'bg-[#72c4ff] text-white'
-        )}
-      >
-        {label}
-      </label>
+
+      <div className="text-custom-point flex items-center">
+        {errors[id]?.message && <FaExclamationTriangle />}
+        <p>{errors[id]?.message as string}</p>
+      </div>
+
+      {!placeholder && <label htmlFor={id} className="mb-1 block text-l font-bold text-start">{label}</label>}
 
       <input
+        className={clsx(`w-full border border-[#d9d9d9]`)}
         type={type}
         id={id}
         disabled={disabled}
+        placeholder={placeholder}
         {...register(id, {
           required: {
             value: required,
-            message: `${id}を入力してください`
+            message: `${label}を入力してください`
           },
           pattern: {
             value: forNumber ? /^\d+(?:\.\d+)?$/ : /.*/,
-            message: forNumber ? "数字を入力してください" : "使用不可能な文字が使用されています"
+            message: forNumber ? "数字を入力してください" : "改行のみ使用できません。"
           },
           maxLength: {
             value: 30,
-            message: `${id}は30字までです`
+            message: `${label}は30字までです`
           }
         })}
-        className={clsx(
-          `
-              w-full 
-              border 
-            border-[#d9d9d9]
-          `
-          ,
-          type === 'file' &&
-          'hidden'
-        )}
       />
 
     </div>

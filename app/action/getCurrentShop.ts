@@ -2,11 +2,12 @@ import { getServerSession } from "next-auth"
 
 import { authOption } from "@/app/api/auth/[...nextauth]/route"
 import prisma from "@/app/lib/prismadb"
+import { NextResponse } from "next/server"
 
 export default async function getCurrentShop() {
   try {
     const session = await getServerSession(authOption)
-    if (!session?.user?.email) {
+    if (!session || !session?.user?.email) {
       return null
     }
     const shop = await prisma.shop.findUnique({
@@ -21,7 +22,8 @@ export default async function getCurrentShop() {
       return null
     }
     return shop
-  } catch {
+  } catch (error) {
+    console.error("failed to get current shop", error)
     return null
   }
 }

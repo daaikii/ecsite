@@ -4,13 +4,19 @@ import getCurrentShop from "@/app/action/getCurrentShop"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
+
+  const body = await request.json()
+  const { id, name, price, expiration, stock, detail, imageURL } = body
+  if (!id || !name || !price || !expiration || !stock || !detail || !imageURL) {
+    return new NextResponse("Missing required fields", { status: 400 })
+  }
+
   try {
     const shop = await getCurrentShop()
     if (!shop) {
-      throw new Error("shop is not in database")
+      return new NextResponse("shop is not in database", { status: 404 })
     }
-    const body = await request.json()
-    const { id, name, price, expiration, stock, detail, imageURL } = body
+
     const item = await prisma.item.update({
       where: {
         id: id
@@ -30,8 +36,9 @@ export async function POST(request: Request) {
       }
     })
     return NextResponse.json(item)
-  }
-  catch (error) {
-    return new NextResponse(error as string, { status: 500 });
+
+  } catch (error) {
+    console.log("failed to update item", error)
+    return new NextResponse("internal server error", { status: 500 });
   }
 }

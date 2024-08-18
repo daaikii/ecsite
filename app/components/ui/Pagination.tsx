@@ -25,37 +25,41 @@ export default function Pagination({ currentPage, limit, itemLength, path }: Pro
 
   return (
     <div className="text-right">
-      <a href={`${path}/${currentPage - 1}`}>
-        <button
-          className={`${currentPage === 1 || itemLength < limit ? "hidden" : ""
-            }`}
-          disabled={currentPage === 1}
-        >
-          ＜
-        </button>
+
+
+      <a href={`${path}/${currentPage - 1}`}
+        className={`${currentPage === 1 || itemLength < limit ? "hidden" : ""}`}
+      >
+        {"<"}
       </a>
+
+
       {
-        pageNumbers.map((number, index) => (
-          <a key={number} href={`${path}/${number}`}>
-            <button
-              className={`${currentPage === number ? "border-b-2 border-custom-gray" : ""
-                }`}
-            >
-              {number}
-            </button>
+        pageNumbers.map((page, index) => (
+          <a key={page} href={`${path}/${page}`}
+            className={`${currentPage === page ? "border-b-2 border-custom-gray" : ""}`}
+          >
+            {page}
             {index == 4 ? "" : " / "}
           </a>
         ))
       }
-      <a href={`${path}/${currentPage + 1}`}>
-        <button
-          className={`${currentPage === totalPages || itemLength < limit ? "hidden" : ""
-            }`}
-          disabled={currentPage === totalPages}
-        >
-          ＞
-        </button>
+
+
+      <a href={`${path}/${totalPages}`}
+        className="border-b-2 border-custom-gray"
+      >
+        ...{totalPages}
       </a>
+
+
+      <a href={`${path}/${currentPage + 1}`}
+        className={`${currentPage === totalPages || itemLength < limit ? "hidden" : ""}`}
+      >
+        {">"}
+      </a>
+
+
     </div >
   );
 };

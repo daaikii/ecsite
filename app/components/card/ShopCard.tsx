@@ -22,7 +22,7 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
         "
     >
       <div
-        onClick={() => router.push(`/shop/item/itemList/${shop.id}/1`)}
+        onClick={() => router.push(`/item/itemList/${shop.id}/1`)}
         className="
         mx-auto
         w-[100%]

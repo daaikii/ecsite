@@ -16,6 +16,7 @@ const config: Config = {
       colors: {
         custom: {
           main: "#ff6565",
+          pastel: "#FFBDBE",
           point: "#72c4ff",
           font: "#595959",
           gray: "#d9d9d9",

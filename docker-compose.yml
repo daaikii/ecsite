@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   front:
     build: 
@@ -12,10 +11,10 @@ services:
     # depends_on:
     #   - db
 
-  font_dev:
+  front_dev:
     build:
       context: .
-      traget: dev
+      target: dev
     volumes: 
       - ./:/app
     ports:

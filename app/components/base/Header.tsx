@@ -9,40 +9,38 @@ const Header: FC = () => {
   const { status } = useSession()
   const purpose = useStore(usePurposeStore, state => state.purpose)
   return (
-    <div className="bg-custom-main ">
-      <div className="
-      py-6 px-12 
-      flex justify-between items-end"
-      >
-        <h1 className="text-category text-white">
-          <Link href="/">
-            FoodLossZero
-          </Link>
-        </h1>
-        <ul className="flex">
-          {purpose === "SHOP" &&
-            <>
-              <li className="ml-4 text-nav-item">
-                <Link href="/shop/item/itemList/currentShopItems/1">
-                  出品一覧
-                </Link>
-              </li>
-              <li className="ml-4 text-nav-item">
-                <Link href="/shop/item/post">
-                  出品
-                </Link>
-              </li>
-            </>
-          }
-          {status !== "authenticated" &&
+    <div className="bg-custom-main h-[100px] w-full flex justify-between items-center px-12">
+      <h1 className="text-category text-white text-4xl">
+        <Link href="/">
+          FoodLossToZero
+        </Link>
+      </h1>
+      <ul className="flex">
+        {
+          status === "authenticated" &&
+          purpose === "SHOP" &&
+          <>
             <li className="ml-4 text-nav-item">
-              <Link href="/auth">
-                LOGIN
+              <Link href="/item/itemList/currentShopItems/1">
+                出品一覧
               </Link>
             </li>
-          }
-        </ul>
-      </div>
+            <li className="ml-4 text-nav-item">
+              <Link href="/item/post">
+                出品
+              </Link>
+            </li>
+          </>
+        }
+        {
+          status !== "authenticated" &&
+          <li className="ml-4 text-nav-item">
+            <Link href="/auth">
+              LOGIN
+            </Link>
+          </li>
+        }
+      </ul>
     </div>
   )
 }

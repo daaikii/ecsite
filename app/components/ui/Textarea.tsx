@@ -2,6 +2,7 @@
 import { FC } from "react"
 import { UseFormRegister, FieldValues, FieldErrors, Control, useWatch } from "react-hook-form"
 import clsx from "clsx"
+import { FaExclamationTriangle } from "react-icons/fa"
 
 type InputProps = {
   disabled: boolean,
@@ -22,18 +23,15 @@ const Input: FC<InputProps> = ({
 }) => {
   return (
     <div className='mb-6'>
-      <p>{errors[id]?.message as string}</p>
+
+      <div className="text-custom-point flex items-center">
+        {errors[id]?.message && <FaExclamationTriangle />}
+        <p>{errors[id]?.message as string}</p>
+      </div>
+
       <label
         htmlFor={id}
-        className={clsx(
-          // 共通スタイル
-          `
-            mb-2
-            block 
-            text-l 
-            font-bold 
-          `
-        )}
+        className={clsx(`mb-2 block text-l font-bold text-start`)}
       >
         {label}
       </label>

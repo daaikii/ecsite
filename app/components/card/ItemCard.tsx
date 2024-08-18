@@ -35,7 +35,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
         hover:outline-dotted
         hover:outline-1
       "
-        onClick={() => router.push(`/shop/item/itemDetail/${item.id}/${purpose}`)}
+        onClick={() => router.push(`/item/itemDetail/${item.id}/${purpose}`)}
       >
         <div
           className="

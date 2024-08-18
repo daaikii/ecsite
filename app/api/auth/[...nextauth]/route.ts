@@ -1,8 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt"
-
 import prisma from "@/app/lib/prismadb"
+import bcrypt from "bcryptjs"
 
 export const authOption = {
   providers: [
@@ -25,13 +24,14 @@ export const authOption = {
                 email: credentials.email
               }
             })
-          }
-          if (credentials.purpose === "SHOP") {
+          } else if (credentials.purpose === "SHOP") {
             user = await prisma.shop.findUnique({
               where: {
                 email: credentials.email
               }
             })
+          } else {
+            return null
           }
           if (!user) {
             return null
