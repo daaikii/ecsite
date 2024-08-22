@@ -97,7 +97,7 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
         <p>{errorMessage}</p>
       </div>
 
-      {/* <GoogleMapComponent lat={item.shop.latitude} lng={item.shop.longitude} /> */}
+      <GoogleMapComponent lat={item.shop.latitude} lng={item.shop.longitude} />
     </>
   )
 }
