@@ -84,7 +84,6 @@ const AuthForm: FC = () => {
           if (!imageURL) {
             throw new Error("failed to upload image")
           }
-          // const imageURL = "/demoImage.jpg"
           data = { ...data, imageURL }
         }
 

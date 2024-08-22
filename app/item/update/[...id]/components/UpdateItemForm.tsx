@@ -53,7 +53,6 @@ const UpdateItemForm: FC<Props> = ({ item, isCurrentUser }) => {
       } else {
         imageURL = item.imageURL
       }
-      // const imageURL = "/demoImage.jpg"
       data = { ...data, id: item.id, imageURL }
       axios.post("/api/item/update", data)
       router.push("/")

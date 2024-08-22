@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     return NextResponse.json(item)
 
   } catch (error) {
-    console.log("failed to update item", error)
+    console.error("failed to update item", error)
     return new NextResponse("internal server error", { status: 500 });
   }
 }

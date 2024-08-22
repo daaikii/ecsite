@@ -16,7 +16,6 @@ const uploadImageToS3 = async (data: FieldValues, imageURL: string | null) => {
   try {
     if (imageURL) {
       const key = imageURL.split('/').pop();
-      console.log(key)
       s3ResponseData = await s3.upload({
         Bucket: process.env.AWS_S3_BUCKET_NAME as string,
         Key: key!,

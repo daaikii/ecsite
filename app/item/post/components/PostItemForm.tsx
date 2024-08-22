@@ -38,11 +38,10 @@ const ItemPostForm: FC = () => {
       if (!imageURL) {
         throw new Error("Failed to upload image")
       }
-      // const imageURL = "/demoImage.jpg"
       data = { ...data, imageURL }
       axios.post("/api/item/create", data)
-      // router.push("/")
-      // reset()
+      router.push("/")
+      reset()
 
 
     } catch (error) {
