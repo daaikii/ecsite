@@ -12,25 +12,29 @@ const uploadImageToS3 = async (data: FieldValues, imageURL: string | null) => {
     throw new Error("No image file provided");
   }
 
-  const fileName = `${Date.now()}-${data.image[0].name}`;
-
-  const params = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME as string,
-    Key: fileName,
-    ContentType: data.image[0].type,
-    Body: data.image[0],
-  }
-
+  let s3ResponseData;
   try {
     if (imageURL) {
       const key = imageURL.split('/').pop();
-      await s3.deleteObject({
+      console.log(key)
+      s3ResponseData = await s3.upload({
         Bucket: process.env.AWS_S3_BUCKET_NAME as string,
-        Key: key!
+        Key: key!,
+        ContentType: data.image[0].type,
+        Body: data.image[0]
+      }).promise()
+    } else {
+      const fileName = `${Date.now()}-${data.image[0].name}`;
+      s3ResponseData = await s3.upload({
+        Bucket: process.env.AWS_S3_BUCKET_NAME as string,
+        Key: fileName,
+        ContentType: data.image[0].type,
+        Body: data.image[0],
       }).promise()
     }
-
-    const s3ResponseData = await s3.upload(params).promise()
+    if (!s3ResponseData) {
+      throw new Error("response not found")
+    }
     const url = s3ResponseData.Location
 
     return url

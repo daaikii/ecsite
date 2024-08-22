@@ -21,7 +21,7 @@ const Header: FC = () => {
           purpose === "SHOP" &&
           <>
             <li className="ml-4 text-nav-item">
-              <Link href="/item/itemList/currentShopItems/1">
+              <Link href="/item/list/currentShopItems/1">
                 出品一覧
               </Link>
             </li>

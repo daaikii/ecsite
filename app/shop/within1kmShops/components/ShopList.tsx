@@ -13,21 +13,21 @@ type ShopsProps = {
 }
 
 const ShopList: FC<ShopsProps> = ({ shops, page, itemLength }) => {
-  const path = usePathname()
+  const currentPath = usePathname()
+  const path = currentPath.slice(0, currentPath.length - 1)
   return (
-    <div className="mt-[72px] px-[40px] md:px-[120px]">
-      <h2 className="mb-8 text-category">店舗一覧</h2>
+    <>
       <ul className="flex flex-wrap">
         {
-          shops.map((shop) => {
+          shops.map((shop, index) => {
             return (
-              <ShopCard shop={shop} />
+              <ShopCard key={index} shop={shop} />
             )
           })
         }
       </ul>
       <Pagination currentPage={page} limit={21} itemLength={itemLength} path={path} />
-    </div>
+    </>
   )
 }
 

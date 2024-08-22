@@ -20,7 +20,6 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
         w-[100%]
         xl:w-[10%]
       "
-      key={item.id}
     >
       <div
         className="
@@ -35,7 +34,7 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
         hover:outline-dotted
         hover:outline-1
       "
-        onClick={() => router.push(`/item/itemDetail/${item.id}/${purpose}`)}
+        onClick={() => router.push(`/item/detail/${item.id}/${purpose}`)}
       >
         <div
           className="

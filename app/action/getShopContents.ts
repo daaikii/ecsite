@@ -1,7 +1,7 @@
 import prisma from "@/app/lib/prismadb"
 import { NextResponse } from "next/server"
 
-export default async function getShopItems(id: string) {
+export default async function getShopContents(id: string) {
   if (!id) {
     return new NextResponse("Missing params id", { status: 400 })
   }
@@ -14,10 +14,10 @@ export default async function getShopItems(id: string) {
         items: true
       }
     })
-    if (!shop || !shop.items) {
+    if (!shop) {
       return null
     }
-    return shop.items
+    return shop
   } catch (error) {
     console.error("failed get shop items", error)
     return new NextResponse("internal server error")

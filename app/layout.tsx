@@ -15,7 +15,9 @@ export default function RootLayout({
       <body >
         <SessionProvider>
           <Header />
-          {children}
+          <div className="h-[calc(100vh-100px)]">
+            {children}
+          </div>
         </SessionProvider>
       </body>
     </html>

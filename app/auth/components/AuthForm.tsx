@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
 import { useSession, signIn } from "next-auth/react"
 import axios from "axios"
 import clsx from "clsx"
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FaExclamationTriangle, FaRegQuestionCircle } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from 'next/link'
 
@@ -13,7 +13,7 @@ import Input from "@/app/components/ui/Input"
 import FileInput from "@/app/components/ui/FileInput"
 import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase"
-import uploadImageToS3 from "@/app/lib/s3"
+import uploadImageToS3 from "@/app/action/uploadImageToS3"
 import { usePurposeStore } from "@/app/lib/store/purpose"
 
 
@@ -61,19 +61,21 @@ const AuthForm: FC = () => {
   }, [])
 
 
-
-  async function login(data: FieldValues) {
-    const callback = await signIn("credentials", { ...data, redirect: false })
-    if (callback?.error) throw new Error("failed to login")
-  }
-
   const authFormSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true)
+    setErrorMessage("")
     data = { ...data, purpose }    // ログインする種類の指定に使用
 
     try {
+      // throw new Error("Error")
       if (variant === "LOGIN") {
-        login(data)
+
+        const callback = await signIn("credentials", { ...data, redirect: false })
+        if (callback?.error) {
+          setErrorMessage("認証情報が正しくありません。修正し再度実行してください。")
+          setIsLoading(false)
+          return
+        }
 
       } else if (variant === "REGISTER") {
 
@@ -82,11 +84,15 @@ const AuthForm: FC = () => {
           if (!imageURL) {
             throw new Error("failed to upload image")
           }
+          // const imageURL = "/demoImage.jpg"
           data = { ...data, imageURL }
         }
 
         await axios.post("/api/register", data)
-        await login(data)
+        const callback = await signIn("credentials", { ...data, redirect: false })
+        if (callback?.error) {
+          throw new Error("filed to logIn")
+        }
 
       } else {
         throw new Error("invalid purpose")
@@ -97,8 +103,8 @@ const AuthForm: FC = () => {
 
 
     } catch (error) {
-      console.error("failed to authentication", error)
-      setErrorMessage("実行中にエラーが発生しました。修正し再試行してください。")
+      console.error("An unexpected error occurred:", error)
+      setErrorMessage("予期しないエラーが発生しました。しばらくしてから再度お試しください。")
 
 
     } finally {
@@ -111,8 +117,8 @@ const AuthForm: FC = () => {
   return (
     <>
       <FormBase>
-        <p>{errorMessage}</p>
         <h2 className="mb-6 text-4xl font-bold">{variant === "LOGIN" ? "LOGIN" : "REGISTER"}</h2>
+
 
         <div className="mb-6 flex justify-between border-b ">
           <div
@@ -141,6 +147,7 @@ const AuthForm: FC = () => {
           {variant === "REGISTER" && ( //アカウント作成のみ表示
             <>
               <Input disabled={isLoading} required={true} register={register} errors={errors} type="text" id="name" label="名前または会社名" />
+
               {purpose === "SHOP" && ( //アカウント作成 (商用アカウント作成)のみ表示
                 <>
                   <Input disabled={isLoading} required={true} register={register} errors={errors} type="text" id="address" label="住所" />
@@ -200,6 +207,13 @@ const AuthForm: FC = () => {
 
         </form>
 
+        <div className=" mb-6
+                        flex justify-center items-center 
+                        text-xl font-bold text-custom-point"
+        >
+          {errorMessage && <FaExclamationTriangle />}
+          <p>{errorMessage}</p>
+        </div>
 
         {/* variant切り替え */}
         <div className="mt-20">

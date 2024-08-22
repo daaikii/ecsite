@@ -13,7 +13,6 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
   const router = useRouter()
   return (
     <li
-      key={shop.id}
       className="
         mb-8
         w-[100%]
@@ -22,7 +21,7 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
         "
     >
       <div
-        onClick={() => router.push(`/item/itemList/${shop.id}/1`)}
+        onClick={() => router.push(`/item/list/${shop.id}/1`)}
         className="
         mx-auto
         w-[100%]
@@ -43,9 +42,7 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
           <Image src={shop.imageURL} alt="shop icon" fill objectFit="cover" />
         </div>
         <ul className="
-        lg:max-xl:flex 
         list-item
-        lg:max-xl:justify-center 
         pt-5
         bg-custom-main
         text-white

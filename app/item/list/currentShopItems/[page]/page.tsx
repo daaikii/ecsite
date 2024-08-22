@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import ItemList from "@/app/item/itemList/ItemList";
+import ItemList from "@/app/item/list/ItemList";
 import getCurrentShop from "@/app/action/getCurrentShop";
 import ErrorComponent from "@/app/components/ErrorComponent";
 
@@ -20,7 +20,7 @@ const Page: FC<Props> = async ({ params }) => {
   if (!currentShop) {
     return <ErrorComponent message="ユーザーが見つかりません。" />
   }
-  if (!currentShop?.items) {
+  if (!currentShop?.items.length) {
     return <ErrorComponent message="商品が見つかりません。" />
   }
   const items = currentShop.items.slice(page - 1, page * 30)
@@ -28,8 +28,10 @@ const Page: FC<Props> = async ({ params }) => {
   return (
     <>
       <title>{`CURRENT SHOP ITEM LIST ${page}`}</title>
-      <meta name="description" content="" />
-      <ItemList items={items} page={page} itemLength={currentShop.items.length} />
+      <div className="mt-[72px] px-[40px] md:px-[120px]">
+        <h2 className="mb-8 text-category">出品商品一覧</h2>
+        <ItemList items={items} page={page} itemLength={currentShop.items.length} />
+      </div>
     </>
   )
 }

@@ -42,11 +42,11 @@ const Input: FC<InputProps> = ({
         {...register(id, {
           required: {
             value: required,
-            message: `${id}を入力して下さい`
+            message: `${label}を入力して下さい`
           },
           maxLength: {
             value: 100,
-            message: `${id}は100字までです`
+            message: `${label}は100字までです`
           }
         })}
         className={clsx(

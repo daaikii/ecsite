@@ -5,7 +5,8 @@ import useCalcDistance from "@/app/utils/useCalcDistance"
 import { ShopWithItems } from "../types/prisma"
 
 export default async function getWithin1kmShop() {
-  let userLocation = { userLat: 35.65062086741866, userLng: 139.29318212818947 }
+  // let userLocation = { userLat: 35.65062086741866, userLng: 139.29318212818947 }
+  let userLocation = { userLat: 32.7522851489681, userLng: 129.8685485840686 }
   try {
     // userの位置情報を取得
     // navigator.geolocation.getCurrentPosition((position) => {
@@ -21,7 +22,7 @@ export default async function getWithin1kmShop() {
       }
     })
 
-    if (!shops) {
+    if (!shops.length) {
       return new NextResponse("shop not found", { status: 404 })
     }
 

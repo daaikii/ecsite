@@ -1,18 +1,18 @@
 import { FC } from "react";
 
-import UpdateItemForm from "@/app/item/update/[itemId]/components/UpdateItemForm";
-import getIdItem from "@/app/action/getSelectItem";
+import getIdItem from "@/app/action/getSelectItem"
 import getCurrentShop from "@/app/action/getCurrentShop";
 import getCurrentUser from "@/app/action/getCurrentUser";
+import ItemDetail from "./components/ItemDetail"
 import ErrorComponent from "@/app/components/ErrorComponent";
 
-type Props = {
+type Params = {
   params: {
     id: string[]
   }
 }
 
-const Page: FC<Props> = async ({ params }) => {
+const Page: FC<Params> = async ({ params }) => {
   const [itemId, purpose] = params.id
   if (!itemId || !purpose) {
     return <ErrorComponent message="パラメータが正しくありません。" />
@@ -20,7 +20,7 @@ const Page: FC<Props> = async ({ params }) => {
 
   const item = await getIdItem(itemId)
   if (!item) {
-    return <ErrorComponent message="商品が見つかりません。" />
+    return <ErrorComponent message="商品が見つかりません" />
   }
 
   let user
@@ -37,9 +37,8 @@ const Page: FC<Props> = async ({ params }) => {
 
   return (
     <>
-      <title>UPDATE ITEM FORM</title>
-      <meta name="description" content="" />
-      <UpdateItemForm item={item} isCurrentUser={user?.id === item.shop.id} />
+      <title>ITEM DETAIL</title>
+      <ItemDetail item={item} isCurrentUser={item.shop.id === user?.id} />
     </>
   )
 }

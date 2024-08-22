@@ -12,23 +12,22 @@ const Page: FC = async () => {
     return <ErrorComponent message="予期せぬエラーが発生しました。" />
   }
   if (!shops) {
-    return <p>商品が見つかりません。</p>
+    return <ErrorComponent message="近くにショップが見つかりません" />
   }
 
   let items: Item[] = []
   shops.map((shop) => {
-    if (items.length < 20) {
+    if (items.length < 10) {
       items = [...items, ...shop.items]
     }
   })
-  if (!items) {
+  if (!items.length) {
     return <ErrorComponent message="アイテムが見つかりません。" />
   }
 
   return (
     <>
       <title>HOME</title>
-      <meta name="description" content="" />
       <Home shops={shops} items={items} />
     </>
   )

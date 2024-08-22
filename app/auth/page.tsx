@@ -5,7 +5,6 @@ const Page: FC = () => {
   return (
     <>
       <title>AUTH FORM</title>
-      <meta name="description" content="" />
       <AuthForm />
     </>
   )

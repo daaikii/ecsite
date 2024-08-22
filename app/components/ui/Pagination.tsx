@@ -25,41 +25,35 @@ export default function Pagination({ currentPage, limit, itemLength, path }: Pro
 
   return (
     <div className="text-right">
-
-
-      <a href={`${path}/${currentPage - 1}`}
-        className={`${currentPage === 1 || itemLength < limit ? "hidden" : ""}`}
-      >
+      <a href={`${path}/${currentPage - 1}`} className={`${currentPage === 1 || itemLength < limit ? "hidden" : ""}`}>
         {"<"}
       </a>
 
+      {
+        startPage !== currentPage &&
+        <a href={`${path}/${startPage}`} className="border-b-2 border-custom-gray">
+          {startPage}...
+        </a>
+      }
 
       {
-        pageNumbers.map((page, index) => (
-          <a key={page} href={`${path}/${page}`}
-            className={`${currentPage === page ? "border-b-2 border-custom-gray" : ""}`}
-          >
+        pageNumbers.map((page) => (
+          <a key={page} href={`${path}/${page}`} className={`${currentPage === page && "border-b-2 border-custom-gray"}`}>
             {page}
-            {index == 4 ? "" : " / "}
           </a>
         ))
       }
 
+      {
+        totalPages !== currentPage &&
+        <a href={`${path}/${totalPages}`} className="border-b-2 border-custom-gray">
+          ...{totalPages}
+        </a>
+      }
 
-      <a href={`${path}/${totalPages}`}
-        className="border-b-2 border-custom-gray"
-      >
-        ...{totalPages}
-      </a>
-
-
-      <a href={`${path}/${currentPage + 1}`}
-        className={`${currentPage === totalPages || itemLength < limit ? "hidden" : ""}`}
-      >
+      <a href={`${path}/${currentPage + 1}`} className={`${currentPage === totalPages || itemLength < limit ? "hidden" : ""}`}>
         {">"}
       </a>
-
-
     </div >
   );
 };

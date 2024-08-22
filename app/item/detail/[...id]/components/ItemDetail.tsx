@@ -1,8 +1,9 @@
 "use client"
 import { FC, useState } from "react"
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import axios from "axios";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 import { Item, Shop } from "@prisma/client";
 import GoogleMapComponent from "@/app/components/ui/GoogleMap";
@@ -16,7 +17,6 @@ type ItemDetailProps = {
 
 const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
   const router = useRouter()
-
   const purpose = useStore(usePurposeStore, state => state.purpose)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState<null | string>(null)
@@ -28,23 +28,24 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
     }
   }
 
-  const deleteItem = () => {
+  const deleteItem = async () => {
+    setIsLoading(true)
+    setErrorMessage("")
     if (isCurrentUser) {
-      setIsLoading(true)
-      axios.post("/api/deleteItem", { id: item.id })
-        .then(() => router.push("/"))
-        .catch(error => {
-          console.error("failed to delete item", error)
-          setErrorMessage("アイテムの削除中にエラーが発生しました。再試行してください。")
-        })
-        .finally(() => setIsLoading(false))
+      try {
+        await axios.post("/api/item/delete", item)
+        router.push("/")
+      }
+      catch (error) {
+        console.error("failed to delete item", error)
+        setErrorMessage("予期しないエラーが発生しました。しばらくしてから再度お試しください。")
+      }
+      finally { setIsLoading(false) }
     }
   }
 
   return (
     <>
-      <p>{errorMessage}</p>
-
       <div className="relative w-full h-[300px]">
         <Image src={item.imageURL} alt={item.name} fill objectFit="cover" />
       </div>
@@ -53,13 +54,15 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
         <dl
           className="
             flex flex-wrap
-            [&>dd]:pl-[10%]
+
             [&>dt]:w-[30%]
-            [&>dd]:w-[70%]
             [&>dt]:font-bold
             [&>dt]:border-b
-            [&>dd]:border-b
             [&>dt]:border-dashed
+
+            [&>dd]:pl-[10%]
+            [&>dd]:w-[70%]
+            [&>dd]:border-b
             [&>dd]:border-dashed
           "
         >
@@ -86,7 +89,15 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
           <Button label="削除" disabled={isLoading} onClick={deleteItem} />
         </div>
       }
-      <GoogleMapComponent lat={item.shop.latitude} lng={item.shop.longitude} />
+      <div className="mb-6
+                      flex justify-center items-center 
+                      text-xl font-bold text-custom-point"
+      >
+        {errorMessage && <FaExclamationTriangle />}
+        <p>{errorMessage}</p>
+      </div>
+
+      {/* <GoogleMapComponent lat={item.shop.latitude} lng={item.shop.longitude} /> */}
     </>
   )
 }

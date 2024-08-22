@@ -2,7 +2,7 @@ import { FC } from "react"
 import { NextResponse } from "next/server"
 
 import getWithin1kmShops from "@/app/action/getWithin1kmShops"
-import Within1kmShops from "@/app/shop/within1kmShops/components/ShopList"
+import ShopList from "@/app/shop/within1kmShops/components/ShopList"
 import ErrorComponent from "@/app/components/ErrorComponent"
 
 type Props = {
@@ -21,8 +21,8 @@ const Page: FC<Props> = async ({ params }) => {
   if (shops instanceof NextResponse) {
     return <ErrorComponent message="予期せぬエラーが発生しました。" />
   }
-  if (!shops) {
-    return <p>商品が見つかりません。</p>
+  if (!shops?.length) {
+    return <ErrorComponent message="店舗が見つかりません。" />
   }
 
 
@@ -30,8 +30,10 @@ const Page: FC<Props> = async ({ params }) => {
   return (
     <>
       <title>{`WITHIN 1KM SHOP LIST${page}`}</title>
-      <meta name="description" content="" />
-      <Within1kmShops shops={shopsProps} page={page} itemLength={shops.length} />
+      <div className="mt-[72px] px-[40px] md:px-[120px]">
+        <h2 className="mb-8 text-category">近くの店舗一覧</h2>
+        <ShopList shops={shopsProps} page={page} itemLength={shops.length} />
+      </div>
     </>
   )
 }
