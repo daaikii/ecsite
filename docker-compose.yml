@@ -8,6 +8,8 @@ services:
     environment:
       -  WATCHPACK_POLLING=true
     tty: true
+    env_file:
+      - .env.production
     # depends_on:
     #   - db
 

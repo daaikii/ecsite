@@ -8,7 +8,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 
 #builder
@@ -41,25 +41,23 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 
 EXPOSE 3000
-
 ENV PORT 3000
-
 ENV  HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]
 
-# # dev ステージ
-# FROM base AS dev
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install
-# COPY . .
+# dev ステージ
+FROM base AS dev
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
 
-# # 環境変数 PATH を設定
-# ENV PATH /app/node_modules/.bin:$PATH
+# 環境変数 PATH を設定
+ENV PATH /app/node_modules/.bin:$PATH
 
-# # next コマンドが存在するか確認
-# RUN ls /app/node_modules/.bin
-# RUN which next
+# next コマンドが存在するか確認
+RUN ls /app/node_modules/.bin
+RUN which next
 
-# CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev"]
