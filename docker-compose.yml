@@ -10,8 +10,6 @@ services:
     tty: true
     env_file:
       - .env.production
-    # depends_on:
-    #   - db
 
   front_dev:
     build:
@@ -25,18 +23,18 @@ services:
     environment:
       - WATCHPACK_POLLING=true
     tty: true
-    command: npm run dev
-    # depends_on:
-    #   - db
+    command: "npm run dev"
+    depends_on:
+      - db
 
-  # db:
-  #   image: mysql:8.3.0
-  #   volumes:
-  #     - db:/ver/lib/mysql
-  #   ports:
-  #     - 3306:3306
-  #   env_file:
-  #     - .env
+  db:
+    image: postgres:15
+    volumes:
+      - db:/var/lib/postgresql/ecsite
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
 
-# volumes:
-#   db:
+volumes:
+  db:

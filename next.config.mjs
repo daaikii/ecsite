@@ -1,8 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode:false,
   swcMinify: true,
   output:'standalone',
+
+    // // webpack設定を直接次のように定義
+    // webpack(config, { isServer }) {
+    //   config.watchOptions = {
+    //     aggregateTimeout: 300, // 300ms待ってから再ビルド
+    //     poll: 1000, // 1秒ごとにポーリング
+    //   };
+  
+    //   // 追加の設定が必要な場合はここに記述
+  
+    //   return config;
+    // },
+  
 
   env: {
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,

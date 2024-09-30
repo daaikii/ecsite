@@ -46,6 +46,10 @@ ENV  HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]
 
+
+
+
+
 # dev ステージ
 FROM base AS dev
 WORKDIR /app

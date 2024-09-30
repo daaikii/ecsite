@@ -36,9 +36,9 @@ model Shop {
 model Item {
   id             String  @unique @default(cuid())
   name           String
-  price          String
+  price          Int
   expirationDate String
-  stock          String
+  stock          Int
   detail         String?
   imageURL       String
 

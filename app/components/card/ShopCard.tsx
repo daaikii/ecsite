@@ -2,11 +2,11 @@
 import { FC } from "react"
 
 import Image from "next/image"
-import { ShopWithItems } from "@/app/types/prisma"
 import { useRouter } from "next/navigation"
+import { ShopDTO } from "@/lib/types/data"
 
 type ShopProps = {
-  shop: ShopWithItems
+  shop: ShopDTO
 }
 
 const ShopCard: FC<ShopProps> = ({ shop }) => {
@@ -21,7 +21,7 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
         "
     >
       <div
-        onClick={() => router.push(`/item/list/${shop.id}/1`)}
+        onClick={() => router.push(`/item/list/selectShop?shopId=${shop.id}&page=1`)}
         className="
         mx-auto
         w-[100%]

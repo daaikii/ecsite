@@ -1,34 +1,29 @@
 import { FC } from "react"
-import { NextResponse } from "next/server"
 
-import { Item } from "@prisma/client"
-import Home from "./components/Home"
-import getWithin1kmShops from "@/app/action/getWithin1kmShops"
-import ErrorComponent from "../components/ErrorComponent"
+import getShops from "@/lib/data/getShopsWithItems"
+import ErrorMessage from "../components/ui/ErrorMessage"
+import ShopsSection from "./components/ShopsSection"
+import ItemsSection from "./components/ItemsSection"
+// import ErrorPage from "../components/ErrorPage"
 
 const Page: FC = async () => {
-  const shops = await getWithin1kmShops()
-  if (shops instanceof NextResponse) {
-    return <ErrorComponent message="予期せぬエラーが発生しました。" />
-  }
-  if (!shops) {
-    return <ErrorComponent message="近くにショップが見つかりません" />
-  }
+  const res = await getShops()
 
-  let items: Item[] = []
-  shops.map((shop) => {
-    if (items.length < 10) {
-      items = [...items, ...shop.items]
-    }
-  })
-  if (!items.length) {
-    return <ErrorComponent message="アイテムが見つかりません。" />
+  if (res instanceof Error) {
+    return <ErrorMessage message={res.message} />
   }
 
   return (
     <>
       <title>HOME</title>
-      <Home shops={shops} items={items} />
+      {
+        res.shopsDTO.length ? <ShopsSection shops={res.shopsDTO} />
+          : <ErrorMessage message="ショップが存在しません" />
+      }
+      {
+        res.itemsDTO.length ? <ItemsSection items={res.itemsDTO} />
+          : <ErrorMessage message="アイテムが存在しません" />
+      }
     </>
   )
 }

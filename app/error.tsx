@@ -1,10 +1,10 @@
 "use client"
 import { FC } from "react"
-import ErrorComponent from "./components/ErrorComponent"
+import ErrorPage from "./components/ErrorPage"
 
 const Error: FC = () => {
   return (
-    <ErrorComponent message="予期せぬエラーが発生しました。" />
+    <ErrorPage message="予期せぬエラーが発生しました。" />
   )
 }
 

@@ -11,6 +11,7 @@ const Button: FC<ButtonProps> = ({ label, disabled, onClick }) => {
   return (
     <button onClick={() => onClick && onClick()}
       disabled={disabled}
+      type="submit"
       className='
       mb-6 p-2
       w-full
