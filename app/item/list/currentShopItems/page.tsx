@@ -33,7 +33,7 @@ const Page: FC<pageProps> = async ({ searchParams }) => {
       <title>{`CURRENT SHOP ITEM LIST ${page}`}</title>
       <div className="mt-[72px] px-[40px] md:px-[120px]">
         <h2 className="mb-8 text-category">出品商品一覧</h2>
-        <ItemList items={items} page={page} itemLength={currentShop.items.length} />
+        <ItemList items={items} itemLength={currentShop.items.length} />
       </div>
     </>
   )

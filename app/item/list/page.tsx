@@ -36,7 +36,7 @@ const Page: FC<pageProps> = async ({ searchParams }) => {
       <title>{`WITHIN 1KM ITEM LIST ${page}`}</title>
       <div className="mt-[72px] px-[40px] md:px-[120px]">
         <h2 className="mb-8 text-category">近くの商品一覧</h2>
-        <ItemList items={itemsProps} page={page} itemLength={res.itemsDTO.length} />
+        <ItemList items={itemsProps} itemLength={res.itemsDTO.length} />
       </div>
     </>
   )
