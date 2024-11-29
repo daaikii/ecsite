@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOption } from "@/lib/auth/authOption"
 import prisma from "@/lib/utils/prismadb"
 import { ItemDTO, ShopDTO } from "../types/data"
+import { Item } from "@prisma/client"
 
 export default async function getCurrentShop() {
   try {
@@ -21,7 +22,7 @@ export default async function getCurrentShop() {
     if (!shop) {
       return new Error("ショップが見つかりません")
     }
-    const itemsDTO: ItemDTO[] = shop.items.map((item) => {
+    const itemsDTO: ItemDTO[] = shop.items.map((item: Item) => {
       return {
         id: item.id,
         name: item.name,
