@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth"
 
 import { authOption } from "@/lib/auth/authOption"
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 import { UserDTO } from "../types/data"
 
 export default async function getCurrentUser() {

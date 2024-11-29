@@ -15,7 +15,7 @@ export default function RootLayout({ children }: Props) {
         <SessionProvider>
           <PurposeObserver />
           <Header />
-          <div className="h-[calc(100vh-100px)]">
+          <div className="min-h-[calc(100vh-80px)]">
             {children}
           </div>
         </SessionProvider>

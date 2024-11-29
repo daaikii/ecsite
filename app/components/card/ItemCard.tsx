@@ -14,43 +14,23 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
   const router = useRouter()
   const purpose = useStore(usePurposeStore, state => state.purpose)
   return (
-    <li
-      className="
-        mb-8
-        w-[100%]
-        xl:w-[10%]
+    <li className=" 
+      items-center text-center 
+      cursor-pointer hover:outline-dotted hover:outline-1
       "
+      onClick={() => router.push(`/item/detail?itemId=${item.id}&purpose=${purpose}`)}
     >
-      <div
-        className="
-        flex
-        items-center
-        xl:list-item
-        mx-auto
-        w-[100%]
-        xl:w-[120px]
-        cursor-pointer
-        text-center
-        hover:outline-dotted
-        hover:outline-1
-      "
-        onClick={() => router.push(`/item/detail?itemId=${item.id}&purpose=${purpose}`)}
-      >
-        <div
-          className="
-          relative 
-          h-[120px] 
-          w-[60%]
-          xl:w-[120px]
-          "
-        >
-          <Image src={item.imageURL} alt={item.name} fill objectFit="cover" />
-        </div>
-        <div className="text-center w-[40%] xl:w-[120px]">
-          <p className="text-sm font-bold">{item.name}</p>
-          <p className="font-bold text-custom-point">￥{item.price}</p>
-        </div>
+      <div className="h-32">
+        <Image src={item.imageURL} alt={item.name} width={1920} height={1080}
+          className="object-cover block w-full h-full"
+        />
       </div>
+      <p className="text-cl_sm truncate whitespace-nowrap overflow-hidden">
+        {item.name}
+      </p>
+      <p className="text-custom-point truncate whitespace-nowrap overflow-hidden">
+        ￥{item.price}
+      </p>
     </li>
   )
 }

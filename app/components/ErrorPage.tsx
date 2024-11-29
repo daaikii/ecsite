@@ -6,8 +6,8 @@ type Params = {
 
 const ErrorPage: FC<Params> = ({ message }: Params) => {
   return (
-    <div className="h-[100%] w-full flex justify-center items-center">
-      <h2 className="font-bold text-5xl">
+    <div className="h-[50%] w-full flex justify-center items-center">
+      <h2 className="font-bold text-cl_lg">
         {message}
       </h2>
     </div>

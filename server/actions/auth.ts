@@ -2,7 +2,7 @@
 import bcrypt from "bcryptjs"
 import z from "zod"
 
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 import uploadImageToS3 from "@/lib/services/uploadImageToS3"
 import { AuthFormSchema, getSchema } from "@/lib/validation/authForm"
 

@@ -1,7 +1,7 @@
 "use server"
 
 import { createSchema } from "@/lib/validation/itemForm"
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 import getCurrentShop from "@/lib/data/getCurrentShop"
 import uploadImageToS3 from "@/lib/services/uploadImageToS3"
 

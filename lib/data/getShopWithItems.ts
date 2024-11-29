@@ -1,4 +1,4 @@
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 import { ItemDTO } from "../types/data"
 
 export default async function getShopContents(id: string) {

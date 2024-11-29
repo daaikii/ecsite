@@ -28,22 +28,22 @@ import useLoading from "@/lib/hooks/useLoading"
 
 
 const AuthForm: FC = () => {
-  //lib
   const router = useRouter()
   const session = useSession()
+
   useEffect(() => {
     if (session.status === "authenticated") {
       router.push("/")
     }
   }, [session])
-  //context
+
   const setGlobalPurpose = usePurposeStore((state) => state.setGlobalPurpose)
+
   // custom hooks
   const { errorMessage, setErrorMessage } = useErrorMessage()
   const { purpose, changePurpose, isUser, isShop } = usePurpose()
   const { variant, changeVariant, isLogin, isRegister } = useVariant()
   const { isLoading, startLoading, stopLoading } = useLoading()
-
 
   async function login(data: any) {
     const callback = await signIn("credentials", { email: data.email, password: data.password, purpose: purpose, redirect: false })
@@ -52,16 +52,15 @@ const AuthForm: FC = () => {
     }
   }
 
-
-  // form settings
   const form = useForm<AuthFormSchema>({
     resolver: zodResolver(getSchema(isRegister, isShop)),
   });
   const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = form
-  // isRegister, isShopの変更を監視してフォームのバリデーションを更新
-  useEffect(() => {
+
+  useEffect(() => {  // isRegister, isShopの変更を監視してフォームのバリデーションを更新
     reset({}, { keepValues: true });
   }, [isRegister, isShop, reset]);
+
   //  Fileに変換し手動で値をセット
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -93,7 +92,10 @@ const AuthForm: FC = () => {
       try {
         await login(data)
       } catch (error) {
-        setErrorMessage("Login failed")
+        setErrorMessage("認証情報が間違っています。")
+        return
+      } finally {
+        stopLoading()
       }
     }
     if (isRegister) {
@@ -103,6 +105,9 @@ const AuthForm: FC = () => {
       } catch (error) {
         console.error("An unexpected error occurred:", error)
         setErrorMessage("予期しないエラーが発生しました。しばらくしてから再度お試しください。")
+        return
+      } finally {
+        stopLoading()
       }
     }
     setGlobalPurpose(purpose)

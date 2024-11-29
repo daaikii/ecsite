@@ -1,5 +1,4 @@
-import prisma from "@/lib/data/prismadb"
-
+import prisma from "@/lib/utils/prismadb"
 import useCalcDistance from "@/lib/utils/calcDistance"
 import { ShopDTO, ItemDTO } from "../types/data"
 
@@ -19,7 +18,7 @@ export default async function shops() {
 
     const shops = await prisma.shop.findMany({ include: { items: true } })
     if (!shops.length) {
-      return new Error("ショップが見つかりません")
+      return new Error("ショップ・商品が見つかりません")
     }
 
     //ショップ情報をshopDTOに変換する

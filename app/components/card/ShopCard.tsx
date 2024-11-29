@@ -4,6 +4,7 @@ import { FC } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { ShopDTO } from "@/lib/types/data"
+import { String } from "aws-sdk/clients/acm"
 
 type ShopProps = {
   shop: ShopDTO
@@ -12,53 +13,39 @@ type ShopProps = {
 const ShopCard: FC<ShopProps> = ({ shop }) => {
   const router = useRouter()
   return (
+
     <li
+      onClick={() => router.push(`/item/list/selectShop?shopId=${shop.id}&page=1`)}
       className="
-        mb-8
-        w-[100%]
-        rounded-lg
-        xl:w-[15%]
+          grid grid-rows-[200px,50px,30px,30px,30px]
+          shadow-md cursor-pointer
         "
     >
-      <div
-        onClick={() => router.push(`/item/list/selectShop?shopId=${shop.id}&page=1`)}
-        className="
-        mx-auto
-        w-[100%]
-        shadow-md 
-        cursor-pointer
-        xl:w-[200px]
-        "
-      >
-        <div className="
-          relative 
-          h-[200px]
-          w-[100%]
-          xl:w-[200px] 
-          rounded-t-lg 
-          overflow-hidden
-          "
-        >
-          <Image src={shop.imageURL} alt="shop icon" fill objectFit="cover" />
-        </div>
-        <ul className="
-        list-item
-        pt-5
-        bg-custom-main
-        text-white
-        font-bold
-        text-center 
-        lg:max-xl:[&>li:nth-child(-n+2))]:mr-2 
-        "
-        >
-          <li key="item0" className="mb border-b text-sm">{shop.items[0]?.name || "ー"}</li>
-          <li key="item1" className="mb border-b text-sm">{shop.items[1]?.name || "ー"}</li>
-          <li key="item2" className="mb text-sm">{shop.items[2]?.name || "ー"}</li>
-        </ul>
+      <div>
+        <Image src={shop.imageURL} alt="shop image" width={1920} height={1080} className="object-cover block w-full h-full" />
       </div>
+
+      <Item text={shop.name || "ー"} />
+      <Item text={shop.items[0]?.name || "ー"} />
+      <Item text={shop.items[1]?.name || "ー"} />
+      <Item text={shop.items[2]?.name || "ー"} />
+
     </li>
 
   )
 }
 
 export default ShopCard
+
+function Item({ text }: { text: String }) {
+  return (
+    <p className={`
+        bg-custom-main border-b
+        text-cl_sm text-white text-center content-center 
+        truncate whitespace-nowrap overflow-hidden
+      `}
+    >
+      {text}
+    </p>
+  )
+}

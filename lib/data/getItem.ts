@@ -1,4 +1,4 @@
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 import { ItemDTO } from "../types/data"
 
 export default async function getSelectItem(id: string) {
@@ -19,7 +19,9 @@ export default async function getSelectItem(id: string) {
       shop: {
         id: item.shop.id,
         latitude: item.shop.latitude,
-        longitude: item.shop.longitude
+        longitude: item.shop.longitude,
+        name: item.shop.name,
+        address: item.shop.address
       }
     }
     if (!item.shop) {

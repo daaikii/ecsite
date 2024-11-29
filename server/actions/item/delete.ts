@@ -3,7 +3,7 @@
 import { ItemDTO } from "@/lib/types/data"
 import checkItemOwner from "@/lib/auth/checkItemOwner"
 import deleteImageS3 from "@/lib/services/deleteImageS3"
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 
 export default async function deleteItem(item: ItemDTO) {
   try {

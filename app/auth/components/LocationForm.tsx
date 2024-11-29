@@ -58,6 +58,12 @@ const LocationForm = ({ isLoading, register, setValue, errors }: Props) => {
           https://support.google.com/maps/answer/18539?hl=ja&co=GENIE.Platform%3DDesktop
         </Link>
       </p>
+      <div className="mt-5 text-blue-700">
+        <p>
+          ※開発では位置情報を使用せず、ユーザーの位置を以下の数値に固定しているため、以下のページを参照して作成をお願いします。<br />
+        </p>
+        <a className="border-b border-cyan-950 hover:text-cyan-400 hover:cursor-pointer" onClick={() => window.open('https://next13-ecsite-478298788773.asia-northeast1.run.app/top', '_blank')}>こちらを参照してください</a>
+      </div>
     </div>
 
 

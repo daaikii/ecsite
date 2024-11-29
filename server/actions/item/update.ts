@@ -1,7 +1,7 @@
 "use server"
 
 import { updateSchema } from "@/lib/validation/itemForm";
-import prisma from "@/lib/data/prismadb"
+import prisma from "@/lib/utils/prismadb"
 import checkItemOwner from "@/lib/auth/checkItemOwner";
 import uploadImageToS3 from "@/lib/services/uploadImageToS3";
 

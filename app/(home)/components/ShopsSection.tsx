@@ -1,9 +1,9 @@
 "use client"
 import { FC } from "react"
-import Link from "next/link"
 
 import ShopCard from "@/app/components/card/ShopCard"
 import { ShopDTO } from "../../../lib/types/data"
+import { CustomLink } from "@/app/components/ui/CustomLink"
 
 type ShopsProps = {
   shops: ShopDTO[]
@@ -14,24 +14,29 @@ const ShopsSection: FC<ShopsProps> = ({ shops }) => {
 
   return (
     <section className="
-        py-8  px-[40px]
+        py-8  px-12
         bg-custom-gray_light
-        md:px-[120px]"
+      "
     >
-      <h2 className="mb-6 text-category">近くの店舗一覧</h2>
-      <ul className=" flex
-          max-sm:[&>li:nth-child(n+3)]:hidden  
-          sm:max-md:[&>li:nth-child(n+4)]:hidden
-          md:max-xl:[&>li:nth-child(n+5)]:hidden
+      <h2 className="mb-6 text-cl_lg font-bold">近くの店舗一覧</h2>
+      <ul className="mb-6 grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-10
+          max-sm:[&>li:nth-child(n+2)]:hidden  
+          sm:max-md:[&>li:nth-child(n+3)]:hidden
+          md:max-xl:[&>li:nth-child(n+3)]:hidden
+          xl:[&>li:nth-child(n+6)]:hidden
           "
       >
         {
           shops?.map((shop, index) => {
-            return index < 6 && <ShopCard key={index} shop={shop} />
+            // return index < 5 && <ShopCard key={index} shop={shop} />
+            return <ShopCard key={index} shop={shop} />
           })
         }
       </ul>
-      <Link className="text-link" href="/shop/list?page=1">詳しく見る</Link>
+      <CustomLink
+        text="詳しく見る"
+        href="/shop/list?page=1"
+      />
     </section>
   )
 }

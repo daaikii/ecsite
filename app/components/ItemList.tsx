@@ -13,7 +13,7 @@ type ItemsProps = {
 const ItemList: FC<ItemsProps> = ({ items, itemLength }) => {
   return (
     <>
-      <ul className="flex flex-wrap">
+      <ul className="mb-6 grid grid-cols-[repeat(auto-fit,minmax(min(100px,100%),1fr))] gap-4">
         {
           items.map((item, index) => {
             return (

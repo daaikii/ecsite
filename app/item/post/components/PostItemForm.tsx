@@ -1,16 +1,13 @@
 "use client"
 import { FC, useState, useEffect } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FaExclamationTriangle } from "react-icons/fa";
 
 import Input from "@/app/components/ui/input/Input"
 import FileInput from "@/app/components/ui/input/FileInput"
 import Textarea from "@/app/components/ui/input/Textarea"
 import Button from "@/app/components/ui/Button"
 import FormBase from "@/app/components/base/FormBase";
-import uploadImageToS3 from "@/lib/services/uploadImageToS3"
 import { usePurposeStore, useStore } from "@/lib/context/purpose";
 import useLoading from "@/lib/hooks/useLoading";
 import useErrorMessage from "@/lib/hooks/useErrorMessage";
@@ -66,8 +63,8 @@ const ItemPostForm: FC = () => {
 
     try {
       await create(formData)
-      router.push("/")
-      reset()
+      // router.push("/")
+      // reset()
     } catch (error) {
       console.error("Failed to create item", error)
       setErrorMessage("予期しないエラーが発生しました。しばらくしてから再度お試しください。")
@@ -78,13 +75,18 @@ const ItemPostForm: FC = () => {
 
   return (
     <FormBase>
+      {/* priceとstockには数字限定のforNumber*/}
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* priceとstockには数字限定のforNumber*/}
-        <Input disabled={isLoading} register={register} errors={errors} type="text" id="name" label="名前" />
-        <Input disabled={isLoading} register={register} errors={errors} type="number" id="price" label="値段" step="any" forNumber />
-        <Input disabled={isLoading} register={register} errors={errors} type="text" id="expirationDate" label="有効期限" />
-        <Input disabled={isLoading} register={register} errors={errors} type="number" id="stock" label="在庫" step="any" forNumber />
-        <Textarea disabled={isLoading} register={register} errors={errors} id="detail" label="詳細" />
+        <Input disabled={isLoading} register={register} errors={errors} type="text" id="name" label="名前" placeholder="幕ノ内" />
+        <Input disabled={isLoading} register={register} errors={errors} type="number" id="price" label="値段" step="any" forNumber placeholder="400" />
+        <Input disabled={isLoading} register={register} errors={errors} type="text" id="expirationDate" label="有効期限" placeholder="20xx/xx月/xx日/xx時xx分" />
+        <Input disabled={isLoading} register={register} errors={errors} type="number" id="stock" label="在庫" step="any" forNumber placeholder="1" />
+        <Textarea disabled={isLoading} register={register} errors={errors} id="detail" label="詳細"
+          placeholder="
+            セット内容例:ご飯（白米または五穀米）焼き魚（鯖の塩焼きや鮭）鶏の唐揚げ 玉子焼き 季節の煮物（大根、里芋、人参）ひじき煮 漬物（梅干し、きゅうりの漬物）お浸し（ほうれん草や小松菜）
+            価格:500円（税込）～
+          "
+        />
         <FileInput onChange={handleFileChange} disabled={isLoading} errors={errors} type="file" id="image" label="画像" watch={watch} />
         <Button label="出品" disabled={isLoading} />
       </form>

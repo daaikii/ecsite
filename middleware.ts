@@ -10,6 +10,6 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    '/((?!register|api|auth|$).*)',
+    '/((?!register|api|auth|$|top).*)',
   ],
 };

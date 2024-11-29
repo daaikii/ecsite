@@ -32,15 +32,19 @@ function Input<TFormSchema extends FieldValues>({
   return (
     <div className='mb-6'>
 
-      <div className="text-custom-point flex items-center">
+      <div className="text-custom-point  flex items-center">
         {errors[id]?.message && <FaExclamationTriangle />}
         <p>{errors[id]?.message as string}</p>
       </div>
 
-      {!placeholder && <label htmlFor={id} className="mb-1 block text-l font-bold text-start">{label}</label>}
+      {
+        <label htmlFor={id} className="mb-1 block  text-l font-bold text-start">
+          {label}
+        </label>
+      }
 
       <input
-        className={clsx(`w-full border border-[#d9d9d9]`)}
+        className="w-full border border-[#d9d9d9] placeholder:opacity-50"
         type={type}
         step={step}
         id={id}

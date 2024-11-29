@@ -13,7 +13,7 @@ type ShopsProps = {
 const ShopList: FC<ShopsProps> = ({ shops, itemLength }) => {
   return (
     <>
-      <ul className="flex flex-wrap">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(200px,100%),1fr))] gap-10">
         {
           shops.map((shop, index) => {
             return (

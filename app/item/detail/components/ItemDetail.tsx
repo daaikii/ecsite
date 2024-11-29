@@ -12,7 +12,6 @@ import ErrorMessage from "@/app/components/ui/ErrorMessage";
 import useLoading from "@/lib/hooks/useLoading";
 import deleteItem from "@/server/actions/item/delete";
 import handleItemAccess from "@/server/actions/handleItemAccess";
-import { useSession } from "next-auth/react";
 
 type ItemDetailProps = {
   item: ItemDTO,
@@ -20,14 +19,15 @@ type ItemDetailProps = {
 }
 
 const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
+  console.log(item.shop?.latitude)
+  console.log(item.shop?.longitude)
+
   const router = useRouter()
   //context
   const purpose = useStore(usePurposeStore, state => state.purpose)
   //custom hook
   const { errorMessage, setErrorMessage } = useErrorMessage()
   const { isLoading, startLoading, stopLoading } = useLoading()
-
-  const { data: session } = useSession()
 
   // update
   const updateRoute = async () => {
@@ -58,7 +58,7 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
   return (
     <>
       <div className="relative w-full h-[300px]">
-        <Image src={item.imageURL} alt={item.name} fill objectFit="cover" />
+        <Image src={item.imageURL} alt={item.name} width={1920} height={1080} className="object-cover block w-full h-full" />
       </div>
 
       <div className="px-[20px] py-[40px] md:px-[200px] xl:px-[400px]">
@@ -109,7 +109,7 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
       {/* GoogleMap */}
       {item.shop?.latitude &&
         item.shop.longitude &&
-        <GoogleMapComponent lat={item.shop.latitude} lng={item.shop.longitude} />
+        <GoogleMapComponent lat={item.shop.latitude} lng={item.shop.longitude} isEventEnabled={false} />
       }
     </>
   )

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 
 import UpdateItemForm from "@/app/item/update/components/UpdateItemForm";
 import getIdItem from "@/lib/data/getItem";
-import ErrorMessage from "@/app/components/ui/ErrorMessage";
+import ErrorPage from "@/app/components/ErrorPage";
 import { authOption } from "@/lib/auth/authOption";
 
 type pageProps = {
@@ -15,17 +15,17 @@ type pageProps = {
 const Page: FC<pageProps> = async ({ searchParams }) => {
   const { itemId, purpose } = searchParams
   if (!itemId || !purpose) {
-    return <ErrorMessage message="パラメータが正しくありません" />
+    return <ErrorPage message="パラメータが正しくありません" />
   }
 
   const itemRes = await getIdItem(itemId)
   if (itemRes instanceof Error) {
-    return <ErrorMessage message={itemRes.message} />
+    return <ErrorPage message={itemRes.message} />
   }
 
   const session = await getServerSession(authOption)
   if (!session || !session.user.shopId) {
-    return <ErrorMessage message="セッション情報が間違っています" />
+    return <ErrorPage message="セッション情報が間違っています" />
   }
 
   return (
