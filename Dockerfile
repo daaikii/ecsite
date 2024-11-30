@@ -15,14 +15,19 @@ RUN npm install
 FROM base AS builder
 WORKDIR /app
 
-# 環境変数 DATABASE_URL を設定
+# DATABASE_URL を確認
+ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
+RUN echo "DATABASE_URL=${DATABASE_URL}"
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Prisma クライアント生成後の確認
 RUN npx prisma generate
+RUN ls -la node_modules/@prisma/client
 RUN npm run build
+
 
 #runner
 FROM base AS runner
@@ -53,18 +58,18 @@ CMD ["node", "server.js"]
 
 
 
-# dev ステージ
-FROM base AS dev
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
+# # dev ステージ
+# FROM base AS dev
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install
+# COPY . .
 
-# 環境変数 PATH を設定
-ENV PATH /app/node_modules/.bin:$PATH
+# # 環境変数 PATH を設定
+# ENV PATH /app/node_modules/.bin:$PATH
 
-# next コマンドが存在するか確認
-RUN ls /app/node_modules/.bin
-RUN which next
+# # next コマンドが存在するか確認
+# RUN ls /app/node_modules/.bin
+# RUN which next
 
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
