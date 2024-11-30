@@ -8,4 +8,4 @@ steps:
   env:
   - 'DATABASE_URL=${_DATABASE_URL}'
   options:
-  logging: NONE
+    logging: NONE
