@@ -14,12 +14,15 @@ RUN npm install
 #builder
 FROM base AS builder
 WORKDIR /app
+
+# 環境変数 DATABASE_URL を設定
+ENV DATABASE_URL=${DATABASE_URL}
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 RUN npx prisma generate
 RUN npm run build
-
 
 #runner
 FROM base AS runner
