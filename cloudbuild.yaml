@@ -9,4 +9,4 @@ steps:
   - 'DATABASE_URL=${_DATABASE_URL}'
 
 options:
-    logging: NONE
+    logging: CLOUD_LOGGING_ONLY  
