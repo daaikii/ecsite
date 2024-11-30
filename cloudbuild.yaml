@@ -2,7 +2,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '.']
     env:
-      - 'DATABASE_URL=${_DATABASE_URL}'   # ここで環境変数を渡す
+      - 'DATABASE_URL=${_DATABASE_URL}'   
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
@@ -15,4 +15,7 @@ steps:
       '--platform', 'managed'
     ]
     env:
-      - 'DATABASE_URL=${_DATABASE_URL}'   # 再度環境変数を渡す
+      - 'DATABASE_URL=${_DATABASE_URL}'   
+
+options:
+    logging: CLOUD_LOGGING_ONLY  
