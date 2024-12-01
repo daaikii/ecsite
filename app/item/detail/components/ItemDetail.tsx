@@ -58,7 +58,14 @@ const ItemDetail: FC<ItemDetailProps> = ({ item, isCurrentUser }) => {
   return (
     <>
       <div className="relative w-full h-[300px]">
-        <Image src={decodeURIComponent(item.imageURL)} alt={item.name} width={1920} height={1080} className="object-cover block w-full h-full" />
+        {/* <Image src={decodeURIComponent(item.imageURL)} alt={item.name} width={1920} height={1080} className="object-cover block w-full h-full" /> */}
+        <img
+          src={item.imageURL}
+          alt={item.name}
+          width={1920}
+          height={1080}
+          className="object-cover block w-full h-full"
+        />
       </div>
 
       <div className="px-[20px] py-[40px] md:px-[200px] xl:px-[400px]">

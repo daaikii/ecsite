@@ -22,7 +22,14 @@ const ShopCard: FC<ShopProps> = ({ shop }) => {
         "
     >
       <div>
-        <Image src={decodeURIComponent(shop.imageURL)} alt="shop image" width={1920} height={1080} className="object-cover block w-full h-full" />
+        {/* <Image src={decodeURIComponent(shop.imageURL)} alt="shop image" width={1920} height={1080} className="object-cover block w-full h-full" /> */}
+        <img
+          src={shop.imageURL}
+          alt={shop.name}
+          width={1920}
+          height={1080}
+          className="object-cover block w-full h-full"
+        />
       </div>
 
       <Item text={shop.name || "ー"} />

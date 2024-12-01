@@ -21,7 +21,14 @@ const ItemCard: FC<ItemCardProps> = ({ item }) => {
       onClick={() => router.push(`/item/detail?itemId=${item.id}&purpose=${purpose}`)}
     >
       <div className="h-32">
-        <Image src={decodeURIComponent(item.imageURL)} alt={item.name} width={1920} height={1080}
+        {/* <Image src={decodeURIComponent(item.imageURL)} alt={item.name} width={1920} height={1080}
+          className="object-cover block w-full h-full"
+        /> */}
+        <img
+          src={item.imageURL}
+          alt={item.name}
+          width={1920}
+          height={1080}
           className="object-cover block w-full h-full"
         />
       </div>
