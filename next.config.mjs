@@ -3,7 +3,9 @@ const nextConfig = {
   reactStrictMode:false,
   swcMinify: true,
   output:'standalone',
-  experimental:true,
+  experimental:{
+    appDir: true,
+  },
     // // webpack設定を直接次のように定義
     // webpack(config, { isServer }) {
     //   config.watchOptions = {
