@@ -3,15 +3,15 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '.']
     secretEnv:
-      - _DATABASE_URL
-      - _AWS_ACCESS_KEY_ID
-      - _AWS_SECRET_ACCESS_KEY
-      - _AWS_REGION
-      - _AWS_S3_BUCKET_NAME
-      - _NEXT_PUBLIC_GOOGLE_MAP_MAPID
-      - _NEXT_PUBLIC_GOOGLE_MAP_API_KEY
-      - _NEXTAUTH_SECRET
-      - _DIRECT_URL
+      - DATABASE_URL
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+      - AWS_S3_BUCKET_NAME
+      - NEXT_PUBLIC_GOOGLE_MAP_MAPID
+      - NEXT_PUBLIC_GOOGLE_MAP_API_KEY
+      - NEXTAUTH_SECRET
+      - DIRECT_URL
 
   # プッシュステップ
   - name: 'gcr.io/cloud-builders/docker'
@@ -25,31 +25,31 @@ steps:
       '--region', 'asia-northeast1', 
       '--platform', 'managed',
       '--set-env-vars', 
-      'DATABASE_URL=${_DATABASE_URL},AWS_ACCESS_KEY_ID=${_AWS_ACCESS_KEY_ID},AWS_SECRET_ACCESS_KEY=${_AWS_SECRET_ACCESS_KEY},AWS_REGION=${_AWS_REGION},AWS_S3_BUCKET_NAME=${_AWS_S3_BUCKET_NAME},NEXT_PUBLIC_GOOGLE_MAP_MAPID=${_NEXT_PUBLIC_GOOGLE_MAP_MAPID},NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${_NEXT_PUBLIC_GOOGLE_MAP_API_KEY},NEXTAUTH_SECRET=${_NEXTAUTH_SECRET},DIRECT_URL=${_DIRECT_URL}'
+      'DATABASE_URL=${DATABASE_URL},AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID},AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY},AWS_REGION=${AWS_REGION},AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME},NEXT_PUBLIC_GOOGLE_MAP_MAPID=${NEXT_PUBLIC_GOOGLE_MAP_MAPID},NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${NEXT_PUBLIC_GOOGLE_MAP_API_KEY},NEXTAUTH_SECRET=${NEXTAUTH_SECRET},DIRECT_URL=${DIRECT_URL}'
     ]
     secretEnv:
-      - _DATABASE_URL
-      - _AWS_ACCESS_KEY_ID
-      - _AWS_SECRET_ACCESS_KEY
-      - _AWS_REGION
-      - _AWS_S3_BUCKET_NAME
-      - _NEXT_PUBLIC_GOOGLE_MAP_MAPID
-      - _NEXT_PUBLIC_GOOGLE_MAP_API_KEY
-      - _NEXTAUTH_SECRET
-      - _DIRECT_URL
+      - DATABASE_URL
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+      - AWS_S3_BUCKET_NAME
+      - NEXT_PUBLIC_GOOGLE_MAP_MAPID
+      - NEXT_PUBLIC_GOOGLE_MAP_API_KEY
+      - NEXTAUTH_SECRET
+      - DIRECT_URL
 
 secrets:
   - kmsKeyName: "projects/PROJECT_ID/locations/global/keyRings/KEY_RING/cryptoKeys/KEY_NAME"
     secretEnv:
-      _DATABASE_URL: "projects/PROJECT_ID/secrets/DATABASE_URL/versions/latest"
-      _AWS_ACCESS_KEY_ID: "projects/PROJECT_ID/secrets/AWS_ACCESS_KEY_ID/versions/latest"
-      _AWS_SECRET_ACCESS_KEY: "projects/PROJECT_ID/secrets/AWS_SECRET_ACCESS_KEY/versions/latest"
-      _AWS_REGION: "projects/PROJECT_ID/secrets/AWS_REGION/versions/latest"
-      _AWS_S3_BUCKET_NAME: "projects/PROJECT_ID/secrets/AWS_S3_BUCKET_NAME/versions/latest"
-      _NEXT_PUBLIC_GOOGLE_MAP_MAPID: "projects/PROJECT_ID/secrets/NEXT_PUBLIC_GOOGLE_MAP_MAPID/versions/latest"
-      _NEXT_PUBLIC_GOOGLE_MAP_API_KEY: "projects/PROJECT_ID/secrets/NEXT_PUBLIC_GOOGLE_MAP_API_KEY/versions/latest"
-      _NEXTAUTH_SECRET: "projects/PROJECT_ID/secrets/NEXTAUTH_SECRET/versions/latest"
-      _DIRECT_URL: "projects/PROJECT_ID/secrets/DIRECT_URL/versions/latest"
+    _DATABASE_URL: "projects/PROJECT_ID/secrets/DATABASE_URL/versions/latest"
+      AWS_ACCESS_KEY_ID: "projects/PROJECT_ID/secrets/AWS_ACCESS_KEY_ID/versions/latest"
+      AWS_SECRET_ACCESS_KEY: "projects/PROJECT_ID/secrets/AWS_SECRET_ACCESS_KEY/versions/latest"
+      AWS_REGION: "projects/PROJECT_ID/secrets/AWS_REGION/versions/latest"
+      AWS_S3_BUCKET_NAME: "projects/PROJECT_ID/secrets/AWS_S3_BUCKET_NAME/versions/latest"
+      NEXT_PUBLIC_GOOGLE_MAP_MAPID: "projects/PROJECT_ID/secrets/NEXT_PUBLIC_GOOGLE_MAP_MAPID/versions/latest"
+      NEXT_PUBLIC_GOOGLE_MAP_API_KEY: "projects/PROJECT_ID/secrets/NEXT_PUBLIC_GOOGLE_MAP_API_KEY/versions/latest"
+      NEXTAUTH_SECRET: "projects/PROJECT_ID/secrets/NEXTAUTH_SECRET/versions/latest"
+      DIRECT_URL: "projects/PROJECT_ID/secrets/DIRECT_URL/versions/latest"
 
 options:
   logging: CLOUD_LOGGING_ONLY
