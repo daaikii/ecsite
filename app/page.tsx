@@ -1,9 +1,9 @@
 import { FC } from "react"
 
 import getShops from "@/lib/data/getShopsWithItems"
-import ErrorPage from "../components/ErrorPage"
-import ShopsSection from "./components/ShopsSection"
-import ItemsSection from "./components/ItemsSection"
+import ErrorPage from "./components/ErrorPage"
+import ShopsSection from "./home/components/ShopsSection"
+import ItemsSection from "./home/components/ItemsSection"
 // import ErrorPage from "../components/ErrorPage"
 
 const Page: FC = async () => {

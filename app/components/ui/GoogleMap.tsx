@@ -23,7 +23,7 @@ const GoogleMapComponent: FC<GoogleMapProps> = ({ lat, lng, isEventEnabled }) =>
     let dragEndListener: google.maps.MapsEventListener | null = null;
     const initMap = async () => {
       const loader = new Loader({
-        apiKey: process.env.GOOGLE_MAP_API_KEY as string,
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
         version: "weekly",
       });
 
@@ -40,7 +40,7 @@ const GoogleMapComponent: FC<GoogleMapProps> = ({ lat, lng, isEventEnabled }) =>
           // 地図の初期化
           const map = new Map(mapRef.current, {
             ...mapOptions, // MapOptionsを適用
-            mapId: process.env.GOOGLE_MAP_MAPID, // mapIdをMapコンストラクタに渡す
+            mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_MAPID, // mapIdをMapコンストラクタに渡す
           });
 
           // AdvancedMarkerElement の作成
