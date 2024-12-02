@@ -10,22 +10,27 @@ const Page: FC = async () => {
   const res = await getShops()
 
   if (res instanceof Error) {
-    return <ErrorPage message={res.message} />
+    return (
+      <>
+        <ErrorPage message={res.message} />
+        {process.env.AWS_ACCESS_KEY_ID}
+        {process.env.AWS_SECRET_ACCESS_KEY}
+        {process.env.AWS_REGION}
+        {process.env.AWS_S3BUCKET_NAME}
+
+        {process.env.NEXT_PUBLIC_GOOGLE_MAP_MAPID}
+        {process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+        {process.env.NEXTAUTH_SECRET}
+
+        {process.env.DATABASE_URL}
+        {process.env.DIRECT_URL}
+
+      </>
+    )
   }
 
   return (
     <>
-      {process.env.AWS_ACCESS_KEY_ID}
-      {process.env.AWS_SECRET_ACCESS_KEY}
-      {process.env.AWS_REGION}
-      {process.env.AWS_S3BUCKET_NAME}
-
-      {process.env.NEXT_PUBLIC_GOOGLE_MAP_MAPID}
-      {process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
-      {process.env.NEXTAUTH_SECRET}
-
-      {process.env.DATABASE_URL}
-      {process.env.DIRECT_URL}
       <title>HOME</title>
       {
         res.shopsDTO.length ? <ShopsSection shops={res.shopsDTO} />
