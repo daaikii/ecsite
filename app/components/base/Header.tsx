@@ -14,7 +14,7 @@ const Header: FC = () => {
   return (
     <div className="bg-custom-main h-[80px] w-full flex justify-between items-center px-12  relative">
       <h1 className="text-white text-cl_lg font-bold w-max">
-        <Link href="/">
+        <Link href="/home">
           Food Rescue Hub
         </Link>
       </h1>
