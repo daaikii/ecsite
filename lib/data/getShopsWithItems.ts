@@ -64,6 +64,6 @@ export default async function shops() {
   }
   catch (error) {
     console.error("failed to get shops", error)
-    return new Error(`ショップ情報の取得に失敗しました${error}`)
+    return new Error("ショップ情報の取得に失敗しました")
   }
 }
