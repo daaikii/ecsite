@@ -1,17 +1,22 @@
 steps:
   # ビルドステップ
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '.']
-    secretEnv:
-      - DATABASE_URL
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_REGION
-      - AWS_S3_BUCKET_NAME
-      - NEXT_PUBLIC_GOOGLE_MAP_MAPID
-      - NEXT_PUBLIC_GOOGLE_MAP_API_KEY
-      - NEXTAUTH_SECRET
-      - DIRECT_URL
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> .env
+        echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> .env
+        echo "AWS_REGION=${AWS_REGION}" >> .env
+        echo "AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}" >> .env
+        echo "NEXT_PUBLIC_GOOGLE_MAP_MAPID=${NEXT_PUBLIC_GOOGLE_MAP_MAPID}" >> .env
+        echo "NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${NEXT_PUBLIC_GOOGLE_MAP_API_KEY}" >> .env
+        echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env
+        echo "DATABASE_URL=${DATABASE_URL}" >> .env
+        echo "DIRECT_URL=${DIRECT_URL}" >> .env
+
+        docker build -f Dockerfile -t gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA .
+
 
   # プッシュステップ
   - name: 'gcr.io/cloud-builders/docker'
