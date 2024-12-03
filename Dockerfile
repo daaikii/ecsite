@@ -7,7 +7,7 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json ./ 
 RUN npm install
 
 
@@ -35,6 +35,17 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
+# 追加された環境変数
+ENV DATABASE_URL ${DATABASE_URL}
+ENV AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY ${AWS_SECRET_ACCESS_KEY}
+ENV AWS_REGION ${AWS_REGION}
+ENV AWS_S3_BUCKET_NAME ${AWS_S3_BUCKET_NAME}
+ENV NEXT_PUBLIC_GOOGLE_MAP_MAPID ${NEXT_PUBLIC_GOOGLE_MAP_MAPID}
+ENV NEXT_PUBLIC_GOOGLE_MAP_API_KEY ${NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+ENV NEXTAUTH_SECRET ${NEXTAUTH_SECRET}
+ENV DIRECT_URL ${DIRECT_URL}
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
@@ -43,14 +54,14 @@ COPY --from=builder /app/public ./public
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./ 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
 EXPOSE 3000
 ENV PORT 3000
-ENV  HOSTNAME "0.0.0.0"
+ENV HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]
 
