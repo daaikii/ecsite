@@ -1,46 +1,32 @@
 steps:
+  # Docker イメージをビルドする
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "build"
-      - "--build-arg"
-      - "DATABASE_URL=${_DATABASE_URL}"
       - "-t"
       - "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"
       - "."
 
-  # ビルドしたコンテナイメージをArtifact Registryにプッシュ
+  # ビルドしたコンテナイメージを Artifact Registry にプッシュ
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"]
 
   # Cloud Run デプロイステップ
-  - id: deploy-cloud-run
-    name: "gcr.io/cloud-builders/gcloud"
+  - name: "gcr.io/cloud-builders/gcloud"
     args:
-      - 'run'
-      - 'deploy'
-      - 'next13-ecsite'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA'
-      - '--region'
-      - 'asia-northeast1'
-      - '--platform'
-      - 'managed'
-      - '--set-env-vars'
-      - >-
-        DATABASE_URL=${_DATABASE_URL},
-        AWS_ACCESS_KEY_ID=${_AWS_ACCESS_KEY_ID},
-        AWS_SECRET_ACCESS_KEY=${_AWS_SECRET_ACCESS_KEY},
-        AWS_REGION=${_AWS_REGION},
-        AWS_S3_BUCKET_NAME=${_AWS_S3_BUCKET_NAME},
-        NEXT_PUBLIC_GOOGLE_MAP_MAPID=${_NEXT_PUBLIC_GOOGLE_MAP_MAPID},
-        NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${_NEXT_PUBLIC_GOOGLE_MAP_API_KEY},
-        NEXTAUTH_SECRET=${_NEXTAUTH_SECRET},
-        DIRECT_URL=${_DIRECT_URL}
+      - "run"
+      - "deploy"
+      - "next13-ecsite"
+      - "--image"
+      - "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"
+      - "--region"
+      - "asia-northeast1"
+      - "--platform"
+      - "managed"
+      - "--allow-unauthenticated"
 images:
   - "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"
 timeout: 900s
-
-
 
 
 # steps:
