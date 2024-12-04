@@ -7,30 +7,20 @@ WORKDIR /app
 
 # 依存関係をインストールするステージ
 FROM base AS deps
-COPY package*.json ./
+COPY package*.json ./ 
 RUN npm install
 
 # ビルドステージ
 FROM base AS builder
 WORKDIR /app
 
+# .env をコピーして環境変数を設定
+COPY .env .env
+RUN set -a && source .env && set +a
+
 # deps ステージの依存関係をコピー
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-# .env ファイルをコピー (ただし dotenvを使わず直接環境変数に設定)
-COPY .env .env
-
-RUN export $(grep -v '^#' .env | xargs) && \
-    echo "DATABASE_URL=${DATABASE_URL}" && \
-    echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" && \
-    echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" && \
-    echo "AWS_REGION=${AWS_REGION}" && \
-    echo "AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}" && \
-    echo "NEXT_PUBLIC_GOOGLE_MAP_MAPID=${NEXT_PUBLIC_GOOGLE_MAP_MAPID}" && \
-    echo "NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${NEXT_PUBLIC_GOOGLE_MAP_API_KEY}" && \
-    echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" && \
-    echo "DIRECT_URL=${DIRECT_URL}"
+COPY . . 
 
 # Prisma クライアント生成
 RUN npx prisma generate
@@ -44,11 +34,10 @@ WORKDIR /app
 
 # ビルド済みのアプリケーションをコピー
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/standalone ./ 
 COPY --from=builder /app/.next/static ./.next/static
 
-# 必要な環境変数を手動で設定
-# .env から取得した環境変数を Dockerfile 内で手動で指定
+# 必要な環境変数を手動で設定 (例: Cloud Run に渡された環境変数を利用)
 ENV DATABASE_URL=${DATABASE_URL}
 ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
