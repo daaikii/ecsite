@@ -2,26 +2,27 @@
 FROM node:21-alpine3.18 AS base
 
 # 必要な依存関係をインストール
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat gettext
 WORKDIR /app
 
 # 依存関係をインストールするステージ
 FROM base AS deps
-COPY package*.json ./ 
+COPY package*.json ./
 RUN npm install
 
 # ビルドステージ
 FROM base AS builder
 WORKDIR /app
 
-# .env をコピーして環境変数を設定
-# .env を環境変数に反映する
-COPY .env .env
-RUN envsubst < .env > .env.tmp && mv .env.tmp .env
-
 # deps ステージの依存関係をコピー
 COPY --from=deps /app/node_modules ./node_modules
 COPY . . 
+
+# .env ファイルをコピー
+COPY .env .env
+
+# .env から環境変数を展開
+RUN envsubst < .env > .env.tmp && mv .env.tmp .env
 
 # Prisma クライアント生成
 RUN npx prisma generate
@@ -38,7 +39,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./ 
 COPY --from=builder /app/.next/static ./.next/static
 
-# 必要な環境変数を手動で設定 (例: Cloud Run に渡された環境変数を利用)
+# 環境変数を手動で設定
 ENV DATABASE_URL=${DATABASE_URL}
 ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
