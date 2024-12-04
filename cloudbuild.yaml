@@ -1,31 +1,12 @@
 steps:
-  # .envにCloud Buildの代入変数を埋め込むステップを追加する
   - name: "gcr.io/cloud-builders/docker"
-    entrypoint: "bash"
     args:
-      - "-c"
-      - |
-        echo "DATABASE_URL=${_DATABASE_URL}" >> .env
-        echo "AWS_ACCESS_KEY_ID=${_AWS_ACCESS_KEY_ID}" >> .env
-        echo "AWS_SECRET_ACCESS_KEY=${_AWS_SECRET_ACCESS_KEY}" >> .env
-        echo "AWS_REGION=${_AWS_REGION}" >> .env
-        echo "AWS_S3_BUCKET_NAME=${_AWS_S3_BUCKET_NAME}" >> .env
-        echo "NEXT_PUBLIC_GOOGLE_MAP_MAPID=${_NEXT_PUBLIC_GOOGLE_MAP_MAPID}" >> .env
-        echo "NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${_NEXT_PUBLIC_GOOGLE_MAP_API_KEY}" >> .env
-        echo "NEXTAUTH_SECRET=${_NEXTAUTH_SECRET}" >> .env
-        echo "DIRECT_URL=${_DIRECT_URL}" >> .env
-
-        docker build  --build-arg DATABASE_URL=${_DATABASE_URL} \
-                      --build-arg AWS_ACCESS_KEY_ID=${_AWS_ACCESS_KEY_ID} \
-                      --build-arg AWS_SECRET_ACCESS_KEY=${_AWS_SECRET_ACCESS_KEY} \
-                      --build-arg AWS_REGION=${_AWS_REGION} \
-                      --build-arg AWS_S3_BUCKET_NAME=${_AWS_S3_BUCKET_NAME} \
-                      --build-arg NEXT_PUBLIC_GOOGLE_MAP_MAPID=${_NEXT_PUBLIC_GOOGLE_MAP_MAPID} \
-                      --build-arg NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${_NEXT_PUBLIC_GOOGLE_MAP_API_KEY} \
-                      --build-arg NEXTAUTH_SECRET=${_NEXTAUTH_SECRET} \
-                      --build-arg DIRECT_URL=${_DIRECT_URL} \
-                      -f Dockerfile \
-                      -t gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA .
+      - "build"
+      - "--build-arg"
+      - "DATABASE_URL=${_DATABASE_URL}"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"
+      - "."
 
   # ビルドしたコンテナイメージをArtifact Registryにプッシュ
   - name: "gcr.io/cloud-builders/docker"
