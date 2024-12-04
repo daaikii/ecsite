@@ -21,8 +21,7 @@ COPY . .
 # .env ファイルをコピー (ただし dotenvを使わず直接環境変数に設定)
 COPY .env .env
 
-# .env ファイルから環境変数を設定
-RUN export $(cat .env | xargs) && \
+RUN export $(grep -v '^#' .env | xargs) && \
     echo "DATABASE_URL=${DATABASE_URL}" && \
     echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" && \
     echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" && \
