@@ -15,8 +15,9 @@ FROM base AS builder
 WORKDIR /app
 
 # .env をコピーして環境変数を設定
+# .env を環境変数に反映する
 COPY .env .env
-RUN set -a && source .env && set +a
+RUN envsubst < .env > .env.tmp && mv .env.tmp .env
 
 # deps ステージの依存関係をコピー
 COPY --from=deps /app/node_modules ./node_modules
