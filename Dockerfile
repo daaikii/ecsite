@@ -1,51 +1,46 @@
-#base
+# Base イメージ
 FROM node:21-alpine3.18 AS base
 
-
-# deps
-FROM base AS deps
+# デフォルトの依存関係
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# 依存関係のインストール
+FROM base AS deps
 COPY package*.json ./
-RUN npm ci
+RUN npm ci            
 
-
-#builder
+# ビルド用
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --from=deps /app/node_modules ./node_modules  
+COPY . .                                         
 
-RUN npx prisma generate
-RUN npm run build
+RUN npx prisma generate                         
+RUN npm run build                                 
 
-
-#runner
+# 実行環境
 FROM base AS runner
 WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
 
-ENV NODE_ENV production
+# 実行用ユーザーとグループの作成
+RUN addgroup --system --gid 1001 nodejs          
+RUN adduser --system --uid 1001 --ingroup nodejs nextjs  
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --gid 1001 nextjs
+# ビルド成果物のコピー
+COPY --from=builder /app/public ./public         
+COPY --from=builder /app/.next/standalone ./     
+COPY --from=builder /app/.next/static ./.next/static  
 
-COPY --from=builder /app/public ./public
-
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
+# 実行ユーザーを設定
 USER nextjs
 
+# ポート公開
 EXPOSE 3000
 
-ENV PORT 3000
-
-ENV  HOSTNAME "0.0.0.0"
-
+# アプリケーション起動
 CMD ["node", "server.js"]
 
 # # dev ステージ
