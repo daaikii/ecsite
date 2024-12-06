@@ -41,7 +41,8 @@ USER nextjs
 EXPOSE 3000
 
 # アプリケーション起動
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start"]
+
 
 # # dev ステージ
 # FROM base AS dev
