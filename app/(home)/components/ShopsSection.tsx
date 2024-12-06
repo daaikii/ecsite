@@ -22,7 +22,8 @@ const ShopsSection: FC<ShopsProps> = ({ shops }) => {
       <ul className="mb-6 grid grid-cols-[repeat(auto-fill,minmax(min(200px,100%),1fr))] gap-10
           max-sm:[&>li:nth-child(n+2)]:hidden  
           sm:max-md:[&>li:nth-child(n+3)]:hidden
-          md:max-xl:[&>li:nth-child(n+3)]:hidden
+          md:max-lg:[&>li:nth-child(n+4)]:hidden
+          lg:max-xl:[&>li:nth-child(n+5)]:hidden
           xl:[&>li:nth-child(n+6)]:hidden
           "
       >
