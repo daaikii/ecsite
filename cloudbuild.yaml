@@ -23,6 +23,3 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY  # Save logs to Cloud Logging
-# サポートされているリージョンを指定
-regions:
-  - asia-northeast1  # 東京リージョン
