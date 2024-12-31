@@ -13,7 +13,7 @@ steps:
       - '--no-cache'
       - '-t'
       - >-
-        ${_AR_HOSTNAME}/${PROJECT_ID}/cloud-run-source-deploy/${REPO_NAME}/ecsite:${COMMIT_SHA}
+        gcr.io/${PROJECT_ID}/cloud-run-source-deploy/${REPO_NAME}/ecsite:${COMMIT_SHA}
       - '--build-arg'
       - 'ENV_FILE=.env.production'
       - '.'
