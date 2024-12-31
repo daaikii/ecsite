@@ -4,16 +4,16 @@ steps:
     args:
       - '-c'
       - |
-        gcloud secrets versions access latest --secret={ecsite} > .env.production
+        gcloud secrets versions access latest --secret=${SECRET_NAME} > .env.production
     id: 'fetch-secret'
-
+    
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '--no-cache'
       - '-t'
       - >-
-        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+        ${_AR_HOSTNAME}/${PROJECT_ID}/cloud-run-source-deploy/${REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}
       - '--build-arg'
       - 'ENV_FILE=.env.production'
       - '.'
@@ -22,5 +22,4 @@ steps:
     id: 'Build'
 
 options:
-  logging: CLOUD_LOGGING_ONLY  # ログをCloud Loggingに保存
-  logsBucket: 'gs://ecsite-bucket' 
+  logging: CLOUD_LOGGING_ONLY  # Save logs to Cloud Logging
