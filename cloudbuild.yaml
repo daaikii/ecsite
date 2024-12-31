@@ -6,6 +6,7 @@ steps:
       - |
         gcloud secrets versions access latest --secret={ecsite} > .env.production
     id: 'fetch-secret'
+
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -19,3 +20,13 @@ steps:
       - '-f'
       - 'Dockerfile'
     id: 'Build'
+
+options:
+  logging: CLOUD_LOGGING_ONLY  # ログをCloud Loggingに保存
+  logsBucket: 'gs://your-logs-bucket'  # ログバケットの指定（必要に応じて）
+substitutions:
+  _AR_HOSTNAME: 'your-ar-hostname'
+  _SERVICE_NAME: 'your-service-name'
+  _REPO_NAME: 'your-repo-name'
+  _PROJECT_ID: 'your-project-id'
+  _COMMIT_SHA: 'your-commit-sha'
