@@ -1,70 +1,21 @@
 steps:
-  # ビルドステップ
-  - id: build-frontend
-    name: "gcr.io/cloud-builders/docker"
-    entrypoint: "bash"
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
-      - -c
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret={ecsite} > .env.production
+    id: 'fetch-secret'
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--no-cache'
+      - '-t'
       - >-
-        docker build
-        --file=Dockerfile
-        --tag=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA
-        --tag=gcr.io/$PROJECT_ID/$REPO_NAME:latest
-        --cache-from=gcr.io/$PROJECT_ID/$REPO_NAME:latest
-        .
-    secretEnv:
-      - DATABASE_URL
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_REGION
-      - AWS_S3_BUCKET_NAME
-      - NEXT_PUBLIC_GOOGLE_MAP_MAPID
-      - NEXT_PUBLIC_GOOGLE_MAP_API_KEY
-      - NEXTAUTH_SECRET
-      - DIRECT_URL
-
-  # ビルドしたコンテナイメージを Artifact Registry にプッシュ
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"]
-
-  # Cloud Run デプロイステップ
-  - name: "gcr.io/cloud-builders/gcloud"
-    args:
-      - "run"
-      - "deploy"
-      - "next13-ecsite"
-      - "--image"
-      - "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"
-      - "--region"
-      - "asia-northeast1"
-      - "--platform"
-      - "managed"
-      - "--allow-unauthenticated"
-    secretEnv:
-      - DATABASE_URL
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_REGION
-      - AWS_S3_BUCKET_NAME
-      - NEXT_PUBLIC_GOOGLE_MAP_MAPID
-      - NEXT_PUBLIC_GOOGLE_MAP_API_KEY
-      - NEXTAUTH_SECRET
-      - DIRECT_URL
-
-images:
-  - "gcr.io/$PROJECT_ID/next13-ecsite:$COMMIT_SHA"
-timeout: 900s
-
-secrets:
-  - kmsKeyName: "projects/next13-ecsite/locations/global/keyRings/my-key-ring/cryptoKeys/my-encryption-key"
-
-    secretEnv:
-      DATABASE_URL: "projects/$PROJECT_ID/secrets/DATABASE_URL/versions/latest"
-      AWS_ACCESS_KEY_ID: "projects/$PROJECT_ID/secrets/AWS_ACCESS_KEY_ID/versions/latest"
-      AWS_SECRET_ACCESS_KEY: "projects/$PROJECT_ID/secrets/AWS_SECRET_ACCESS_KEY/versions/latest"
-      AWS_REGION: "projects/$PROJECT_ID/secrets/AWS_REGION/versions/latest"
-      AWS_S3_BUCKET_NAME: "projects/$PROJECT_ID/secrets/AWS_S3_BUCKET_NAME/versions/latest"
-      NEXT_PUBLIC_GOOGLE_MAP_MAPID: "projects/$PROJECT_ID/secrets/NEXT_PUBLIC_GOOGLE_MAP_MAPID/versions/latest"
-      NEXT_PUBLIC_GOOGLE_MAP_API_KEY: "projects/$PROJECT_ID/secrets/NEXT_PUBLIC_GOOGLE_MAP_API_KEY/versions/latest"
-      NEXTAUTH_SECRET: "projects/$PROJECT_ID/secrets/NEXTAUTH_SECRET/versions/latest"
-      DIRECT_URL: "projects/$PROJECT_ID/secrets/DIRECT_URL/versions/latest"
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - '--build-arg'
+      - 'ENV_FILE=.env.production'
+      - '.'
+      - '-f'
+      - 'Dockerfile'
+    id: 'Build'
