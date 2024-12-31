@@ -23,3 +23,4 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY  # ログをCloud Loggingに保存
+  logsBucket: 'gs://ecsite-bucket' 
