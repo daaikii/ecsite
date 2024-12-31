@@ -23,10 +23,3 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY  # ログをCloud Loggingに保存
-  logsBucket: 'gs://your-logs-bucket'  # ここでログバケットを指定
-substitutions:
-  _AR_HOSTNAME: 'your-ar-hostname'
-  _SERVICE_NAME: 'your-service-name'
-  _REPO_NAME: 'your-repo-name'
-  _PROJECT_ID: 'your-project-id'
-  _COMMIT_SHA: 'your-commit-sha'
