@@ -23,7 +23,7 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY  # ログをCloud Loggingに保存
-  logsBucket: 'gs://your-logs-bucket'  # ログバケットの指定（必要に応じて）
+  logsBucket: 'gs://your-logs-bucket'  # ここでログバケットを指定
 substitutions:
   _AR_HOSTNAME: 'your-ar-hostname'
   _SERVICE_NAME: 'your-service-name'
