@@ -9,9 +9,9 @@ COPY . .
 ARG ENV_FILE
 COPY ${ENV_FILE} .env.production 
 
-RUN yarn install
+RUN npm install
 RUN npx prisma generate
-RUN yarn build
+RUN npm run build
 
 EXPOSE 3000
 
