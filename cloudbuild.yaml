@@ -5,8 +5,7 @@ steps:
       - '-c'
       - |
         gcloud secrets versions access latest --secret=ecsite > .env.production
-    id: 'fetch-secret'
-    
+
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -17,9 +16,13 @@ steps:
       - '--build-arg'
       - 'ENV_FILE=.env.production'
       - '.'
-      - '-f'
-      - 'Dockerfile'
     id: 'Build'
 
 options:
   logging: CLOUD_LOGGING_ONLY  # Save logs to Cloud Logging
+
+artifacts:
+  objects:
+    location: 'gs://${PROJECT_ID}-artifacts/'
+    paths:
+      - '.env.production'

@@ -2,17 +2,16 @@ FROM --platform=linux/amd64 node:19-bullseye-slim
 
 WORKDIR /app
 
+# プロジェクトのファイルをコピー
 COPY . .
 
-RUN yarn install
-
-# ビルド時の引数を受け取る
+# 必須の環境変数ファイルをコピー
 ARG ENV_FILE
-# 環境変数ファイルをコピー
-COPY $ENV_FILE .env.production
+COPY ${ENV_FILE} .env.production 
 
+RUN yarn install
 RUN yarn build
 
 EXPOSE 3000
 
-CMD ["yarn","start"]
+CMD ["yarn", "start"]
