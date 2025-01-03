@@ -18,6 +18,20 @@ steps:
       - '.'
     id: 'Build'
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'ecsite'  # Cloud Runサービス名
+      - '--image'
+      - 'gcr.io/${PROJECT_ID}/cloud-run-source-deploy/${REPO_NAME}/ecsite:${COMMIT_SHA}'
+      - '--platform'
+      - 'managed'
+      - '--region'
+      - 'us-central1'
+      - '--allow-unauthenticated'  # 公開する場合
+    id: 'Deploy to Cloud Run'
+
 options:
   logging: CLOUD_LOGGING_ONLY  # Save logs to Cloud Logging
 
