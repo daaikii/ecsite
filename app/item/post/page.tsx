@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { FC } from "react"
 
 import PostItemForm from "./components/PostItemForm"
